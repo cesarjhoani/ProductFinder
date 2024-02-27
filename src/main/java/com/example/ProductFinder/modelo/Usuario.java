@@ -23,6 +23,12 @@ public class Usuario {
 
     private String email;
     private String password;
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)//muchos a muchos de tipo ansiosa y cascada all especifica que todas las operaciones de persistencia (crear, actualizar, eliminar) realizadas en el usuario se propagarán automáticamente a los roles asociados.
+    @JoinTable(
+            name = "usuarios_roles",//tabla intermedia
+            joinColumns = @JoinColumn(name = "usuario_id",referencedColumnName = "id"),//hace referencia al id de usuarios
+            inverseJoinColumns = @JoinColumn(name = "rol_id",referencedColumnName = "id")//hace referencia al id de roles
+    )
     private Collection<Rol> roles;
 
 

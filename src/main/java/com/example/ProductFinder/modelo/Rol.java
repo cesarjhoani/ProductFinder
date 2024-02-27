@@ -27,6 +27,7 @@ public class Rol {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
 // constructor con todoo
     public Rol(Long id, String nombre) {
         this.id = id;
