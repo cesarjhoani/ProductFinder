@@ -5,9 +5,10 @@ import com.example.ProductFinder.modelo.Rol;
 import com.example.ProductFinder.modelo.Usuario;
 import com.example.ProductFinder.repositorio.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-
+@Service
 public class UsuarioServicioImpl implements UsuarioServicio{
 
     @Autowired
