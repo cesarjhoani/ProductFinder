@@ -1,12 +1,21 @@
 package com.example.ProductFinder.dto;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+
 public class UsuarioRegistroDTO {
     private Long id;
+    @NotEmpty(message = "Debe ingresar el nombre del empleado")
     private String nombre;
+    @NotEmpty(message = "Debe ingresar el apellido del empleado")
     private String apellido;
+    @NotEmpty(message = "Debe ingresar el número de documento")
     private String documento;
     private String sexo;
+    @NotEmpty(message = "Debe ingresar el telefono del empleado")
     private String telefono;
+    @NotEmpty(message = "Debe ingresar el email del empleado")
+    @Email(message = "La dirección email no es válida")
     private String email;
     private String password;
 

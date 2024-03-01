@@ -5,10 +5,13 @@ import com.example.ProductFinder.servicio.UsuarioServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/registro")
@@ -24,7 +27,12 @@ public class RegistroUsuarioControlador {
     }
 
     @PostMapping
-    public String guardarUsuario(@ModelAttribute("usuario") UsuarioRegistroDTO registroDTO){
+    public String guardarUsuario(@ModelAttribute("usuario") @Valid UsuarioRegistroDTO registroDTO, BindingResult result){
+/*
+        if (result.hasErrors()) {
+            // Si hay errores de validación, regresa a la página de registro
+            return "registro";
+        }*/
 
     usuarioServicio.guardar(registroDTO);
     return "redirect:/registro?exito";// se redirije a /registro o url de las solicitudes de este mismo controlador

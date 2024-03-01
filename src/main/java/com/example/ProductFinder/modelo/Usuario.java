@@ -1,7 +1,11 @@
 package com.example.ProductFinder.modelo;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
+
 
 @Entity
 @Table(name = "usuarios", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
@@ -11,16 +15,23 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "nombre")
+    @NotEmpty
     private String nombre;
     @Column(name = "apellido")
+    @NotEmpty
     private String apellido;
     @Column(name = "documento")
+    @NotEmpty
     private String documento;
     @Column(name = "sexo")
+    @NotEmpty
     private String sexo;
     @Column(name = "telefono")
+    @NotNull
     private String telefono;
 
+    @NotEmpty
+    @Email
     private String email;
     private String password;
     @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)//muchos a muchos de tipo ansiosa y cascada all especifica que todas las operaciones de persistencia (crear, actualizar, eliminar) realizadas en el usuario se propagarán automáticamente a los roles asociados.
