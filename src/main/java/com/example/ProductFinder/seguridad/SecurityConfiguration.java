@@ -21,7 +21,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
     private UsuarioServicio  usuarioServicio;
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoder(){ // indico como codifico la contraseña
+    public BCryptPasswordEncoder passwordEncoder(){ // indico como codifico la contraseña por que spring security espera una pasword
         return new BCryptPasswordEncoder();
     }
     @Bean
