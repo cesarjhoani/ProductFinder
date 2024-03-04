@@ -24,6 +24,6 @@ public class CategoriaRepositoryTest {
     @Test
     public void testCrearCategoria(){
         Categoria categoriaGuardada = categoriaRepository.save(new Categoria("gaseosas"));
-        assertThat(categoriaGuardada.getId()).isGreaterThan(0);
+        assertThat(categoriaGuardada.getId()).isGreaterThan(0);// toco importar manualmente/ import static org.assertj.core.api.Assertions.assertThat;
     }
 }
