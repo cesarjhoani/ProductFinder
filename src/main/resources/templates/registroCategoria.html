@@ -37,36 +37,24 @@
 <br>
 <br>
 
-<div class="container">
-    <h1>Registro e inicio de sesión con Spring Boot + Spring Security
-        + Thymeleaf + Hibernate + MySQL y Bootstrap</h1>
-    <br>
-    <h4>
-        Bienvenido <span sec:authentication="principal.username"></span>
-    </h4>
-
-    <br> <br>
-    <!--
-    <table class="table table-striped table-bordered">
-        <thead class="table-dark">
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Email</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="usuario : ${usuarios}">
-            <td th:text="${usuario.id}">ID</td>
-            <td th:text="${usuario.nombre}">ID</td>
-            <td th:text="${usuario.apellido}">ID</td>
-            <td th:text="${usuario.email}">ID</td>
-        </tr>
-        </tbody>
-    </table>  -->
-    <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin}">Ir a hola.html</a>
-    <a th:href="@{/publico}">Ir a publico.html</a>
+<div class="container text-center">
+    <div>
+        <h1>agregar una nueva categoria</h1>
+    </div>
+    <form th:action="@{/categorias/guardar}" th:object="${categoria}" method="post"
+          style="max-width:600px; margin:0 auto;">
+        <div class="m-3">
+            <div class="form-group row">
+                <label class="col-form-label col-sm-4">Nombre de la categoriasss</label>
+                <div class="col-sm-8">
+                    <input type="text" th:field="*{nombre}" class="form-control" required>
+                </div>
+            </div>
+            <div class="text-center p">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </form>
 </div>
 
 
