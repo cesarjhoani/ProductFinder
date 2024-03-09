@@ -27,6 +27,7 @@
                 </li>
                 <a class="navbar-brand" href="#" th:href="@{/categorias}">Categorias</a>
                 <a class="navbar-brand" href="#" th:href="@{/bodegas}">Bodegas</a>
+                <a class="navbar-brand" href="#" th:href="@{/sucursales}">Bodegas</a>
             </ul>
             <form class="d-flex" th:action="@{/logout}" method="post">
                 <input class="btn btn-secondary" type="submit" value="Cerrar sesión"/>
@@ -45,20 +46,23 @@
         <div class="card-header" th:text="${titulo}"></div>
         <div class="card-body">
             <h4 class="card-title">
-                <a th:href="@{/categorias/nuevo}" class="btn btn-primary">Agregar categoria</a>
-
+                <a th:href="@{/sucursales/nuevo}" class="btn btn-primary">Agregar Sucursales</a>
             </h4>
             <table class="table table-striped">
                 <thead style="background-color: #75c7ff; color: white;">
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>
+                    <th>Telefono</th>
+                    <th>Direccion</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="categoria : ${listaCategorias}">
-                    <td th:text="${categoria.id}"></td>
-                    <td th:text="${categoria.nombre}"></td>
+                <tr th:each="sucursal : ${listaSucursales}">
+                    <td th:text="${sucursal.id}"></td>
+                    <td th:text="${sucursal.nombre}"></td>
+                    <td th:text="${sucursal.telefono}"></td>
+                    <td th:text="${sucursal.dirrecion}"></td>
                 </tbody>
             </table>
         </div>

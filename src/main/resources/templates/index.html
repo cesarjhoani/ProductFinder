@@ -3,6 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Gestion de productos</title>
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
@@ -25,6 +26,8 @@
                 </a>
                 </li>
                 <a class="navbar-brand" href="#" th:href="@{/categorias}">Categorias</a>
+                <a class="navbar-brand" href="#" th:href="@{/bodegas}">Bodegas</a>
+                <a class="navbar-brand" href="#" th:href="@{/sucursales}">Sucursales</a>
             </ul>
             <form class="d-flex" th:action="@{/logout}" method="post">
                 <input class="btn btn-secondary" type="submit" value="Cerrar sesión"/>
