@@ -42,39 +42,31 @@
 <br>
 <br>
 
-<div class="container">
-    <h1>Registro e inicio de sesión con Spring Boot + Spring Security
-        + Thymeleaf + Hibernate + MySQL y Bootstrap</h1>
-    <br>
-    <h4>
-        Bienvenido <span sec:authentication="principal.username"></span>
-    </h4>
 
-    <br> <br>
-    <!--
-    <table class="table table-striped table-bordered">
-        <thead class="table-dark">
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Email</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="usuario : ${usuarios}">
-            <td th:text="${usuario.id}">ID</td>
-            <td th:text="${usuario.nombre}">ID</td>
-            <td th:text="${usuario.apellido}">ID</td>
-            <td th:text="${usuario.email}">ID</td>
-        </tr>
-        </tbody>
-    </table>  -->
-    <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin}">Ir a hola.html</a>
-    <a th:href="@{/publico}">Ir a publico.html</a>
+<div class="py-4 ml-5 mr-5">
+    <div class="card bg-light">
+        <div class="card-header" th:text="${titulo}"></div>
+        <div class="card-body">
+            <h4 class="card-title">
+                <a th:href="@{/categorias/nuevo}" class="btn btn-primary">Agregar Modulos</a>
+
+            </h4>
+            <table class="table table-striped">
+                <thead style="background-color: #75c7ff; color: white;">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="modulo : ${ListaModulos}">
+                    <td th:text="${modulo.id}"></td>
+                    <td th:text="${modulo.nombre}"></td>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-
-
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

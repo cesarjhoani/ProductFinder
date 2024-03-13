@@ -21,4 +21,5 @@ public class SucursalesController {
         model.addAttribute("titulo","Listado de Sucursales");
         return "Sucursales";
     }
+
 }
