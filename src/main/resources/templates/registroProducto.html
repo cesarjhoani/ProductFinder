@@ -52,22 +52,21 @@
 <div class="container my-5">
     <h2>Registro de productos</h2>
         <br>
-    <form action="" method="post" th:object="${producto}" enctype="multipart/form-data"><!--enctype="multipart/form-data" se utiliza cuando el formulario incluye archivos adjuntos, como imágenes, archivos de audio, videos, etc.-->
+    <form th:action="@{/guardarProducto}" method="post" th:object="${producto}" enctype="multipart/form-data"><!--enctype="multipart/form-data" se utiliza cuando el formulario incluye archivos adjuntos, como imágenes, archivos de audio, videos, etc.-->
 
-        <div class="mb-3">
-            <label class="form-label" for="nombre">Nombre : </label> <input
-                id="nombre" type="text" class="form-control custom-input" th:field="*{nombre}"
-                autofocus="autofocus" required th:errorClass="'form-control alert-danger'"
-                placeholder=" Digite el nombre del producto">
+        <div class="form-group">
+            <label class="control-label" for="nombre">Nombre : </label> <input
+                id="nombre" type="text" class="form-control" th:field="*{nombre}"
+                autofocus="autofocus"  th:errorClass="'form-control alert-danger'">
             <small class="form-text text-danger" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></small>
         </div>
 
         <div class="mb-3">
-            <label class="form-label" for="codigoBarras">Codigo Barras : </label> <input
-                id="codigoBarras" type="text" class="form-control" th:field="*{codigoBarras}"
-                autofocus="autofocus" required th:errorClass="'form-control alert-danger'"
-                placeholder=" Digite el nombre del producto">
-            <small class="form-text text-danger" th:if="${#fields.hasErrors('codigoBarras')}" th:errors="*{codigoBarras}"></small>
+            <label for="codigoBarras" class="form-label">Codigo de Barras : </label>
+            <textarea id="codigoBarras" placeholder="Digite codigo de barras"
+                      class="form-control" th:field="*{codigoBarras}"></textarea>
+            <div class="invalid-feedback"
+                 th:if="${#fields.hasErrors('codigoBarras')}" th:errors="*{codigoBarras}"></div>
         </div>
 
         <div class="mb-3">
@@ -92,7 +91,7 @@
             <br>
         <div class="mb-3">
             <label>Sucursal : </label>
-            <select class="form-select" th:field="*{sucursales}" required>
+            <select class="form-select" th:field="*{sucursales}" >
                 <th:block th:each="sucursal : ${listaSucursales}">
                     <option th:text="${sucursal.nombre}" th:value="${sucursal.id}"></option>
                 </th:block>
@@ -103,7 +102,7 @@
         <br>
         <div class="mb-3">
             <label>Categoria : </label>
-            <select class="form-select" th:field="*{categoria}" required>
+            <select class="form-select" th:field="*{categoria}" >
                 <th:block th:each="categoria : ${listaCategorias}">
                     <option th:text="${categoria.nombre}" th:value="${categoria.id}"></option>
                 </th:block>
@@ -114,7 +113,7 @@
 
         <div class="mb-3">
             <label>Bodega : </label>
-            <select class="form-select" th:field="*{bodegas}" required>
+            <select class="form-select" th:field="*{bodegas}" >
                 <th:block th:each="bodegas : ${listaBodegas}">
                     <option th:text="${bodegas.nombre}" th:value="${bodegas.id}"></option>
                 </th:block>
@@ -126,7 +125,7 @@
 
         <div class="mb-3">
             <label>Pasillo : </label>
-            <select class="form-select" th:field="*{pasillo}" required>
+            <select class="form-select" th:field="*{pasillo}" >
                 <th:block th:each="pasillo : ${listaPasillos}">
                     <option th:text="${pasillo.nombre}" th:value="${pasillo.id}"></option>
                 </th:block>
@@ -137,7 +136,7 @@
         <br>
         <div class="mb-3">
             <label>Modulo : </label>
-            <select class="form-select" th:field="*{modulo}" required>
+            <select class="form-select" th:field="*{modulo}" >
                 <th:block th:each="modulo : ${listaModulos}">
                     <option th:text="${modulo.nombre}" th:value="${modulo.id}"></option>
                 </th:block>

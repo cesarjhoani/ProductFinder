@@ -28,32 +28,32 @@ public class Producto {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate fechaRegistro;
 
-    @NotEmpty
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "sucursal_id") // como no puse una estrategia de recuperación entonces la predeterminada es eager (ansiosa).
     private Sucursales sucursales;
 
-    @NotEmpty
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
-    @NotEmpty
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "bodega_id")
     private Bodegas bodegas;
 
-    @NotEmpty
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "pasillo_id")
     private Pasillo pasillo;
 
-    @NotEmpty
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "modulo_id")
     private Modulo modulo;
 
-    @NotEmpty
+    @NotNull
     private String nivel;
 
     public Producto() {

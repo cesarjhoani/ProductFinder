@@ -2,7 +2,7 @@ package com.example.ProductFinder.controlador;
 
 import com.example.ProductFinder.modelo.*;
 import com.example.ProductFinder.repositorio.*;
-import com.example.ProductFinder.servicio.AlmacenServicioImpl;
+import com.example.ProductFinder.servicio.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,13 +10,20 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
 @Controller
 public class AdminProductoController {
+    @Autowired
+    private ProductoService productoService;
+
     @Autowired
     private ProductoRepository productoRepository;
 
@@ -25,13 +32,13 @@ public class AdminProductoController {
     @Autowired
     private CategoriaRepository categoriaRepository;
     @Autowired
-    private SucursalRepository sucursalRepository;
+    private SucursalesService sucursalesService;
     @Autowired
-    private BodegaRepository bodegaRepository;
+    private BodegaService bodegaService;
     @Autowired
-    private ModuloRepository moduloRepository;
+    private ModuloService moduloService;
     @Autowired
-    private PasilloRepository pasilloRepository;
+    private PasilloService pasilloService;
 
     @GetMapping("/admin")
     public String adminProductos(@PageableDefault(sort = "nombre",size = 5)Pageable pageable, Model model){//paginacion por defecto en orden alfabetico por el nombre//recuerde verPaginaDeInicio
@@ -41,11 +48,11 @@ public class AdminProductoController {
     }
     @GetMapping("/agregarProducto")
     public String mostrarFormularioDeNuevoProducto(Model model){
-        List<Sucursales> listaSucursales = sucursalRepository.findAll(Sort.by("nombre"));
+        List<Sucursales> listaSucursales = sucursalesService.obtenerSucursales();
         List<Categoria> listaCategorias = categoriaRepository.findAll(Sort.by("nombre"));
-        List<Bodegas> listaBodegas = bodegaRepository.findAll(Sort.by("nombre"));
-        List<Modulo>  listaModulos = moduloRepository.findAll(Sort.by("nombre"));
-        List<Pasillo>  listaPasillos = pasilloRepository.findAll(Sort.by("nombre"));
+        List<Bodegas> listaBodegas = bodegaService.obtenerBodegas();
+        List<Modulo>  listaModulos = moduloService.obtenerModulos();
+        List<Pasillo>  listaPasillos = pasilloService.obtenerPasillos();
         model.addAttribute("listaSucursales",listaSucursales);
         model.addAttribute("listaCategorias",listaCategorias);
         model.addAttribute("listaBodegas",listaBodegas);
@@ -53,6 +60,37 @@ public class AdminProductoController {
         model.addAttribute("listaPasillos",listaPasillos);
         model.addAttribute("producto",new Producto());
         return "registroProducto";
+    }
+
+    @PostMapping("/guardarProducto")
+    public String guardarProducto(@ModelAttribute("producto")Producto producto, BindingResult bindingResult,Model model){
+
+        if(bindingResult.hasErrors() || producto.getImagen().isEmpty()){
+            if(producto.getImagen().isEmpty()){//volvemos a preguntar para seguir forzando
+                bindingResult.rejectValue("imagen","MultipartNotEmpty");
+            }
+
+            model.addAttribute("producto",producto);
+            List<Sucursales> listaSucursales = sucursalesService.obtenerSucursales();
+            List<Categoria> listaCategorias = categoriaRepository.findAll(Sort.by("nombre"));
+            List<Bodegas> listaBodegas = bodegaService.obtenerBodegas();
+            List<Modulo>  listaModulos = moduloService.obtenerModulos();
+            List<Pasillo>  listaPasillos = pasilloService.obtenerPasillos();
+            model.addAttribute("listaSucursales",listaSucursales);
+            model.addAttribute("listaCategorias",listaCategorias);
+            model.addAttribute("listaBodegas",listaBodegas);
+            model.addAttribute("listaModulos",listaModulos);
+            model.addAttribute("listaPasillos",listaPasillos);
+            return "registroProducto";
+        }
+
+
+            String rutaImagen = servicio.almacenarArchivo(producto.getImagen());
+            producto.setRutaImagen(rutaImagen);
+
+            productoService.guardar(producto);
+
+        return "redirect:/admin";
     }
 
 
