@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -63,7 +64,7 @@ public class AdminProductoController {
     }
 
     @PostMapping("/guardarProducto")
-    public String guardarProducto(@ModelAttribute("producto")Producto producto, BindingResult bindingResult,Model model){
+    public String guardarProducto(@ModelAttribute("producto")@Valid Producto producto, BindingResult bindingResult, Model model){
 
         if(bindingResult.hasErrors() || producto.getImagen().isEmpty()){
             if(producto.getImagen().isEmpty()){//volvemos a preguntar para seguir forzando

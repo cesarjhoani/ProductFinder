@@ -44,33 +44,40 @@
     </div>
 </nav>
 
-<div class="container my-5">
-    <h1>Productos</h1>
-    <div class="text-end">
-        <a href="/agregarProducto" class="btn btn-primary mb-3">
-            Agregar Productos </a>
+<div>
+    <div class="container my-5">
+        <h1>Productos</h1>
+        <div class="text-end">
+            <a href="/agregarProducto" class="btn btn-primary mb-3">
+                Agregar Productos </a>
+        </div>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th></th><!--imagen-->
+                <th>Producto</th>
+                <th>Fecha Rgistro</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="producto : ${listaProductos}" th:object="${producto}">
+                <td style="width:150px;">
+                    <a th:href="@{/imagenes/{filename}(filename=${producto.rutaImagen})}" data-fancybox><!--invoco el controlador rescontroller-->
+                        <img th:src="@{/imagenes/{filename}(filename=${producto.rutaImagen})}" alt="" class="img-thumbnail w-100"><!--src para generar la url de la img-->
+                    </a>
+
+                </td><!--el de la imagen-->
+                <td>
+                    <div th:text="${producto.nombre}" class="fs-5"></div>
+                    <p th:text="${producto.codigoBarras}"></p>
+                </td>
+                <td th:text="*{#temporals.format(fechaRegistro,'dd/MM/yyyy')}"></td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
-    <table class="table table-hover">
-       <thead>
-       <tr>
-           <th></th><!--imagen-->
-           <th>Producto</th>
-           <th>Fecha Rgistro</th>
-           <th></th>
-       </tr>
-       </thead>
-        <tbody>
-        <tr th:each="producto : ${listaProductos}" th:object="${producto}">
-        <td></td><!--el de la imagen-->
-            <td>
-                <div th:text="${producto.nombre}" class="fs-5"></div>
-                <p th:text="${producto.codigoBarras}"></p>
-            </td>
-            <td th:text="*{#temporals.format(fechaRegistro,'dd/MM/yyyy')}"></td>
-            <td></td>
-        </tr>
-        </tbody>
-    </table>
 </div>
 
 
