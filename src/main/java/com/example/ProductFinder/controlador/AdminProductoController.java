@@ -12,10 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -42,7 +40,7 @@ public class AdminProductoController {
     private PasilloService pasilloService;
 
     @GetMapping("/admin")
-    public String adminProductos(@PageableDefault(sort = "nombre",size = 5)Pageable pageable, Model model){//paginacion por defecto en orden alfabetico por el nombre//recuerde verPaginaDeInicio
+    public String adminProductos(@PageableDefault(sort = "nombre",size = 15)Pageable pageable, Model model){//paginacion por defecto en orden alfabetico por el nombre//recuerde verPaginaDeInicio
         Page<Producto> listaProductos = productoRepository.findAll(pageable);
         model.addAttribute("listaProductos",listaProductos);
         return "productos_admin";
@@ -86,12 +84,47 @@ public class AdminProductoController {
         }
 
 
-            String rutaImagen = servicio.almacenarArchivo(producto.getImagen());
+            String rutaImagen = servicio.almacenarArchivo(producto.getImagen());// retorna el nombre de la imagen original
             producto.setRutaImagen(rutaImagen);
 
             productoService.guardar(producto);
 
         return "redirect:/admin";
+    }
+    //@GetMapping("/editar{id}")
+    //@GetMapping("/producto/{id}/editar")
+    @GetMapping("/editar{id}")
+    public String MostrarFormularioEditarProducto(@PathVariable Integer id, Model model){
+        Producto producto = productoService.obtenerProductoPorID(id);
+        //Producto producto = productoRepository.getOne(id);
+
+        model.addAttribute("producto",producto);
+        List<Sucursales> listaSucursales = sucursalesService.obtenerSucursales();
+        List<Categoria> listaCategorias = categoriaRepository.findAll(Sort.by("nombre"));
+        List<Bodegas> listaBodegas = bodegaService.obtenerBodegas();
+        List<Modulo>  listaModulos = moduloService.obtenerModulos();
+        List<Pasillo>  listaPasillos = pasilloService.obtenerPasillos();
+        model.addAttribute("listaSucursales",listaSucursales);
+        model.addAttribute("listaCategorias",listaCategorias);
+        model.addAttribute("listaBodegas",listaBodegas);
+        model.addAttribute("listaModulos",listaModulos);
+        model.addAttribute("listaPasillos",listaPasillos);
+
+        return "editarProducto";
+    }
+
+
+
+
+    @GetMapping("/eliminar/{id}")
+    public String eliminar(@PathVariable(value = "id")Integer id, RedirectAttributes flash){
+
+        if(id>0){
+            productoRepository.deleteById(id);
+            flash.addFlashAttribute("success","Cliente eliminado con exito");
+        }
+        return "redirect:/admin";
+
     }
 
 

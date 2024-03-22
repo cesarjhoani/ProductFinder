@@ -14,6 +14,7 @@ public class AssetsController {
 
     @Autowired
     private AlmacenServicioImpl servicio;
+    //@GetMapping("/imagenes/{filename}")//sin el @RequestMapping
     @GetMapping("/{filename}")//esta url recibe el valor de =${producto.rutaImagen} desde la vista
     public Resource obtenerRecurso(@PathVariable(value = "filename") String filenamee){
         return servicio.cargarComoRecurso(filenamee);// por lo que investigue me toco usar @RestController por que en este caso yo tenia que devolver un  recurso y no un  ModelAndView, String o View  Por lo tanto, @RestController es más adecuado en esta situación, ya que te permite devolver los recursos directamente sin necesidad de renderizar una vista HTML.
