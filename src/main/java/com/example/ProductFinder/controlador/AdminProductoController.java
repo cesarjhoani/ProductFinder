@@ -40,7 +40,7 @@ public class AdminProductoController {
     private PasilloService pasilloService;
 
     @GetMapping("/admin")
-    public String adminProductos(@PageableDefault(sort = "nombre",size = 15)Pageable pageable, Model model){//paginacion por defecto en orden alfabetico por el nombre//recuerde verPaginaDeInicio
+    public String adminProductos(@PageableDefault(sort = "nombre",size = 3)Pageable pageable, Model model){//paginacion por defecto en orden alfabetico por el nombre//recuerde verPaginaDeInicio
         Page<Producto> listaProductos = productoRepository.findAll(pageable);
         model.addAttribute("listaProductos",listaProductos);
         return "productos_admin";
@@ -120,7 +120,9 @@ public class AdminProductoController {
     public String eliminar(@PathVariable(value = "id")Integer id, RedirectAttributes flash){
 
         if(id>0){
+            //Producto producto = productoRepository.getOne(id);
             productoRepository.deleteById(id);
+            //servicio.eliminarArchivo(producto.getRutaImagen());  desactivo el metodo para que las imagenes que tengan otras sucursales no sean afectadas
             flash.addFlashAttribute("success","Cliente eliminado con exito");
         }
         return "redirect:/admin";
