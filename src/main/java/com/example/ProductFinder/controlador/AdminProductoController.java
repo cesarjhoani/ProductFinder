@@ -40,8 +40,8 @@ public class AdminProductoController {
     private PasilloService pasilloService;
 
     @GetMapping("/admin")
-    public String adminProductos(@PageableDefault(sort = "nombre",size = 3)Pageable pageable, Model model){//paginacion por defecto en orden alfabetico por el nombre//recuerde verPaginaDeInicio
-        Page<Producto> listaProductos = productoRepository.findAll(pageable);
+    public String adminProductos(@PageableDefault(sort = "nombre",size = 5)Pageable pageable, Model model){//paginacion por defecto en orden alfabetico por el nombre//recuerde verPaginaDeInicio
+        Page<Producto> listaProductos = productoService.obtenerListaProductos(pageable);
         model.addAttribute("listaProductos",listaProductos);
         return "productos_admin";
     }
@@ -68,7 +68,7 @@ public class AdminProductoController {
             if(producto.getImagen().isEmpty()){//volvemos a preguntar para seguir forzando
                 bindingResult.rejectValue("imagen","MultipartNotEmpty");
             }
-
+                // si hay un espacio en blanco en el registro vuelvo y mando sus llaves foraneas al formulario
             model.addAttribute("producto",producto);
             List<Sucursales> listaSucursales = sucursalesService.obtenerSucursales();
             List<Categoria> listaCategorias = categoriaRepository.findAll(Sort.by("nombre"));
