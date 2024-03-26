@@ -75,26 +75,37 @@
 
             </td><!--el de la imagen-->
             <td>
-                <div style="color: green;" th:text="${producto.nombre}" class="fs-3"></div>
-                <div style="color: blue;" th:text="${producto.sucursales.nombre}" class="fs-4"></div>
-                <div style="color: green;" th:text="${producto.categoria.nombre}" class="fs-4"></div>
-                <div style="color: blue;" th:text="${producto.bodegas.nombre}" class="fs-4"></div>
+                <div style="color: green;" th:text="${producto.nombre}" class="fs-5"></div>
+                <div style="color: blue;" th:text="${producto.sucursales.nombre}" class="fs-5"></div>
+                <div style="color: green;" th:text="${producto.categoria.nombre}" class="fs-5"></div>
+                <div style="color: blue;" th:text="${producto.bodegas.nombre}" class="fs-5"></div>
                 <div class="fs-4">
                     <span>Pasillo: </span>
                     <span style="color: green;" th:text="${producto.pasillo.nombre}"></span>
                 </div>
 
-                <div class="fs-4">
+                <div class="fs-5">
                     <span>Modulo: </span>
                     <span style="color: blue;" th:text="${producto.modulo.nombre}"></span>
                 </div>
-                <div class="fs-4">
+                <div class="fs-5">
                     <span>Nivel: </span>
                     <span style="color: green;" th:text="${producto.nivel}"></span>
                 </div>
                 <p th:text="*{#temporals.format(fechaRegistro,'dd/MM/yyyy')}"></p>
             </td>
-            <td th:text="${producto.codigoBarras}"></td>
+            <td class="multiline">
+                <!--
+                <div style="color: green;" th:text="${producto.codigoBarras.substring(0, 7)}"></div>
+                <div style="color: green;" th:text="${producto.codigoBarras.substring(7)}"></div>
+                -->
+                <div class="fs-5" style="color: green;"
+                     th:text="${producto.codigoBarras.length() > 7 ? producto.codigoBarras.substring(0, 7) : producto.codigoBarras}"></div><!--me aseguro con una condicion si la cadena es sificiente larga antes de intentar dividirla-->
+                <div class="fs-5" style="color: green;"
+                     th:text="${producto.codigoBarras.length() > 7 ? producto.codigoBarras.substring(7) : ''}"></div>
+                </td>
+
+
             <td class="text-end">
                 <a class="btn btn-primary" th:href="@{'/editar'+${producto.id}}">editar</a>
                 <a class="btn btn-primary" th:href="@{'/editar'+${producto.id}}">editar</a>
@@ -110,13 +121,15 @@
 
             <!-- Enlace para ir a la página anterior -->
             <li class="page-item" th:classappend="${!listaProductos.first} ? '' : 'disabled'">
-                <a class="page-link" th:if="${!listaProductos.first}" th:href="@{/admin?page=} + ${listaProductos.number - 1}"><i class="fa-solid fa-backward"></i></a>
+                <a class="page-link" th:if="${!listaProductos.first}"
+                   th:href="@{/admin?page=} + ${listaProductos.number - 1}"><i class="fa-solid fa-backward"></i></a>
             </li>
 
             <!-- Muestra un rango de páginas -->
-            <th:block th:with="startPage=${(listaProductos.number / 2) * 2}, endPage=${(listaProductos.number / 2 + 1) * 2 - 1}">
+            <th:block
+                    th:with="startPage=${(listaProductos.number / 2) * 2}, endPage=${(listaProductos.number / 2 + 1) * 2 - 1}">
 
-            <th:block th:each="pageNumber : ${#numbers.sequence(startPage, endPage)}">
+                <th:block th:each="pageNumber : ${#numbers.sequence(startPage, endPage)}">
                     <li class="page-item" th:classappend="${pageNumber == listaProductos.number} ? 'active'">
                         <a class="page-link" th:href="@{/admin?page=} + ${pageNumber}" th:text="${pageNumber}"></a>
                     </li>
@@ -125,7 +138,8 @@
 
             <!-- Enlace para ir a la página siguiente -->
             <li class="page-item" th:classappend="${!listaProductos.last} ? '' : 'disabled'">
-                <a class="page-link" th:if="${!listaProductos.last}" th:href="@{/admin?page=} + ${listaProductos.number + 1}"><i class="fa-solid fa-forward"></i></a>
+                <a class="page-link" th:if="${!listaProductos.last}"
+                   th:href="@{/admin?page=} + ${listaProductos.number + 1}"><i class="fa-solid fa-forward"></i></a>
             </li>
 
         </ul>
