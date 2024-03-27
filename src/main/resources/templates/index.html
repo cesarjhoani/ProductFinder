@@ -5,6 +5,24 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>inicio</title>
+    <style>
+        .intermitente {
+            animation: intermitente 1s infinite alternate;
+            color: blue;
+        }
+
+        @keyframes intermitente {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
@@ -44,9 +62,8 @@
 <br>
 <div class="container my-5">
     <div class="bg-light p-5 rounded">
-        <h4 class="display-4 text-success">Ultimos  Registros</h4>
+        <h4 class="display-6 primary intermitente">Ultimos  Registros</h4>
     </div>
-    <h4 class="text-danger mt-5">Últimos Productos</h4>
     <div class="row">
         <div class="col-md-3 my-5" th:each="producto : ${ultimasProductos}" th:object="${producto}">
             <img th:src="@{/imagenes/{filename}(filename=${producto.rutaImagen})}" th:alt="${producto.nombre}"

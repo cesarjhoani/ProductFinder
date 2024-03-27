@@ -27,7 +27,11 @@ public class ProductoServiceImpl implements ProductoService{
     }
 
     @Override
-    public Page<Producto> obtenerListaProductos(Pageable pageable) {
+    public Page<Producto> obtenerListaProductos(Pageable pageable,String palabraClave) {
+        if(palabraClave !=null){
+            Page<Producto> productosFiltrados = productoRepository.filtrarProducto(pageable,palabraClave);
+            return productosFiltrados;
+        }
         Page<Producto> listaProductos = productoRepository.findAll(pageable);
         return listaProductos;
     }
@@ -37,6 +41,8 @@ public class ProductoServiceImpl implements ProductoService{
         List<Producto> ultimasPeliculas = productoRepository.findAll(PageRequest.of(0,5, Sort.by("fechaRegistro").descending())).toList();
         return ultimasPeliculas;
     }
+
+
 
 
 }

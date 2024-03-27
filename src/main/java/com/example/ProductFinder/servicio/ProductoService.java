@@ -11,7 +11,7 @@ public interface ProductoService {
 
     public Producto obtenerProductoPorID(Integer id);
 
-    public Page<Producto> obtenerListaProductos(Pageable pageable);
+    public Page<Producto> obtenerListaProductos(Pageable pageable,String palabraClave);
     public List<Producto> obtenerUltimosProductos();
 }
 

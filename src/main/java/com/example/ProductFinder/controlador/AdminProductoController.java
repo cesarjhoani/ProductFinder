@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,95 +41,95 @@ public class AdminProductoController {
     private PasilloService pasilloService;
 
     @GetMapping("/admin")
-    public String adminProductos(@PageableDefault(sort = "nombre",size = 5)Pageable pageable, Model model){//paginacion por defecto en orden alfabetico por el nombre//recuerde verPaginaDeInicio
-        Page<Producto> listaProductos = productoService.obtenerListaProductos(pageable);
-        model.addAttribute("listaProductos",listaProductos);
+    public String listarProductos(@PageableDefault(sort = "nombre", size = 5) Pageable pageable, Model model, @Param("palabraClave") String palabraClave) {//paginacion por defecto en orden alfabetico por el nombre//recuerde verPaginaDeInicio
+        //String palabraClave = "cesar";
+        Page<Producto> listaProductos = productoService.obtenerListaProductos(pageable, palabraClave);
+        model.addAttribute("listaProductos", listaProductos);
         return "productos_admin";
     }
+
     @GetMapping("/agregarProducto")
-    public String mostrarFormularioDeNuevoProducto(Model model){
+    public String mostrarFormularioDeNuevoProducto(Model model) {
         List<Sucursales> listaSucursales = sucursalesService.obtenerSucursales();
         List<Categoria> listaCategorias = categoriaRepository.findAll(Sort.by("nombre"));
         List<Bodegas> listaBodegas = bodegaService.obtenerBodegas();
-        List<Modulo>  listaModulos = moduloService.obtenerModulos();
-        List<Pasillo>  listaPasillos = pasilloService.obtenerPasillos();
-        model.addAttribute("listaSucursales",listaSucursales);
-        model.addAttribute("listaCategorias",listaCategorias);
-        model.addAttribute("listaBodegas",listaBodegas);
-        model.addAttribute("listaModulos",listaModulos);
-        model.addAttribute("listaPasillos",listaPasillos);
-        model.addAttribute("producto",new Producto());
+        List<Modulo> listaModulos = moduloService.obtenerModulos();
+        List<Pasillo> listaPasillos = pasilloService.obtenerPasillos();
+        model.addAttribute("listaSucursales", listaSucursales);
+        model.addAttribute("listaCategorias", listaCategorias);
+        model.addAttribute("listaBodegas", listaBodegas);
+        model.addAttribute("listaModulos", listaModulos);
+        model.addAttribute("listaPasillos", listaPasillos);
+        model.addAttribute("producto", new Producto());
         return "registroProducto";
     }
 
     @PostMapping("/guardarProducto")
-    public String guardarProducto(@ModelAttribute("producto")@Valid Producto producto, BindingResult bindingResult, Model model){
+    public String guardarProducto(@ModelAttribute("producto") @Valid Producto producto, BindingResult bindingResult, Model model) {
 
-        if(bindingResult.hasErrors() || producto.getImagen().isEmpty()){
-            if(producto.getImagen().isEmpty()){//volvemos a preguntar para seguir forzando
-                bindingResult.rejectValue("imagen","MultipartNotEmpty");
+        if (bindingResult.hasErrors() || producto.getImagen().isEmpty()) {
+            if (producto.getImagen().isEmpty()) {//volvemos a preguntar para seguir forzando
+                bindingResult.rejectValue("imagen", "MultipartNotEmpty");
             }
-                // si hay un espacio en blanco en el registro vuelvo y mando sus llaves foraneas al formulario
-            model.addAttribute("producto",producto);
+            // si hay un espacio en blanco en el registro vuelvo y mando sus llaves foraneas al formulario
+            model.addAttribute("producto", producto);
             List<Sucursales> listaSucursales = sucursalesService.obtenerSucursales();
             List<Categoria> listaCategorias = categoriaRepository.findAll(Sort.by("nombre"));
             List<Bodegas> listaBodegas = bodegaService.obtenerBodegas();
-            List<Modulo>  listaModulos = moduloService.obtenerModulos();
-            List<Pasillo>  listaPasillos = pasilloService.obtenerPasillos();
-            model.addAttribute("listaSucursales",listaSucursales);
-            model.addAttribute("listaCategorias",listaCategorias);
-            model.addAttribute("listaBodegas",listaBodegas);
-            model.addAttribute("listaModulos",listaModulos);
-            model.addAttribute("listaPasillos",listaPasillos);
+            List<Modulo> listaModulos = moduloService.obtenerModulos();
+            List<Pasillo> listaPasillos = pasilloService.obtenerPasillos();
+            model.addAttribute("listaSucursales", listaSucursales);
+            model.addAttribute("listaCategorias", listaCategorias);
+            model.addAttribute("listaBodegas", listaBodegas);
+            model.addAttribute("listaModulos", listaModulos);
+            model.addAttribute("listaPasillos", listaPasillos);
             return "registroProducto";
         }
 
 
-            String rutaImagen = servicio.almacenarArchivo(producto.getImagen());// retorna el nombre de la imagen original
-            producto.setRutaImagen(rutaImagen);
+        String rutaImagen = servicio.almacenarArchivo(producto.getImagen());// retorna el nombre de la imagen original
+        producto.setRutaImagen(rutaImagen);
 
-            productoService.guardar(producto);
+        productoService.guardar(producto);
 
         return "redirect:/admin";
     }
+
     //@GetMapping("/editar{id}")
     //@GetMapping("/producto/{id}/editar")
     @GetMapping("/editar{id}")
-    public String MostrarFormularioEditarProducto(@PathVariable Integer id, Model model){
+    public String MostrarFormularioEditarProducto(@PathVariable Integer id, Model model) {
         Producto producto = productoService.obtenerProductoPorID(id);
         //Producto producto = productoRepository.getOne(id);
 
-        model.addAttribute("producto",producto);
+        model.addAttribute("producto", producto);
         List<Sucursales> listaSucursales = sucursalesService.obtenerSucursales();
         List<Categoria> listaCategorias = categoriaRepository.findAll(Sort.by("nombre"));
         List<Bodegas> listaBodegas = bodegaService.obtenerBodegas();
-        List<Modulo>  listaModulos = moduloService.obtenerModulos();
-        List<Pasillo>  listaPasillos = pasilloService.obtenerPasillos();
-        model.addAttribute("listaSucursales",listaSucursales);
-        model.addAttribute("listaCategorias",listaCategorias);
-        model.addAttribute("listaBodegas",listaBodegas);
-        model.addAttribute("listaModulos",listaModulos);
-        model.addAttribute("listaPasillos",listaPasillos);
+        List<Modulo> listaModulos = moduloService.obtenerModulos();
+        List<Pasillo> listaPasillos = pasilloService.obtenerPasillos();
+        model.addAttribute("listaSucursales", listaSucursales);
+        model.addAttribute("listaCategorias", listaCategorias);
+        model.addAttribute("listaBodegas", listaBodegas);
+        model.addAttribute("listaModulos", listaModulos);
+        model.addAttribute("listaPasillos", listaPasillos);
 
         return "editarProducto";
     }
 
 
-
-
     @GetMapping("/eliminar/{id}")
-    public String eliminar(@PathVariable(value = "id")Integer id, RedirectAttributes flash){
+    public String eliminar(@PathVariable(value = "id") Integer id, RedirectAttributes flash) {
 
-        if(id>0){
+        if (id > 0) {
             //Producto producto = productoRepository.getOne(id);
             productoRepository.deleteById(id);
             //servicio.eliminarArchivo(producto.getRutaImagen());  desactivo el metodo para que las imagenes que tengan otras sucursales no sean afectadas
-            flash.addFlashAttribute("success","Cliente eliminado con exito");
+            flash.addFlashAttribute("success", "Cliente eliminado con exito");
         }
         return "redirect:/admin";
 
     }
-
 
 
 }
