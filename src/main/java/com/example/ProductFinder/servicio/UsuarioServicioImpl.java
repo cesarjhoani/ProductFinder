@@ -36,12 +36,32 @@ public class UsuarioServicioImpl implements UsuarioServicio {
         return usuarioRepositorio.save(usuario);
     }
 
+    // este metodo lo utiliza authenticationProvider() de la clase SecurityConfiguration  ya que UsuarioServicio extiende UserDetailsService y como la clase UsuarioServicioImpl implementa UsuarioServicio entonces debemos agregar aqui este mismo metodo loadUserByUsername(String username)que hace la autenticacion se valida con el email y password
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Usuario usuario = usuarioRepositorio.findByEmail(username);// el username es el email
+        Usuario usuario = usuarioRepositorio.findByEmail(username);
         if (usuario == null) {
-            throw new UsernameNotFoundException("usuarios o contraseña incorrectos");
+            throw new UsernameNotFoundException("Usuario o password inválidos");
         }
-        return new User(usuario.getEmail(), usuario.getPassword(), mapearAutoridadesRoles(usuario.getRoles()));// importante importar este sobre User import org.springframework.security.core.userdetails.User;
+
+        StringBuilder userDetailsBuilder = new StringBuilder();
+        userDetailsBuilder.append(usuario.getEmail()).append(" ").append("<br>"+"Tu rol es ");
+
+        StringBuilder rolesBuilder = new StringBuilder();
+        for (Rol rol : usuario.getRoles()) {
+            String roleName = rol.getNombre();
+            if ("ROLE_USER".equals(roleName)) {
+                roleName = "<span style=\"color: blue;\">Cliente</span>";
+            } else if ("ROLE_ADMIN".equals(roleName)) {
+                roleName = roleName = "<span style=\"color: #3a5f6d;\"><strong>Administrador</strong></span>";
+            }
+            rolesBuilder.append(roleName);
+        }
+        String rolesString = rolesBuilder.toString();
+
+        userDetailsBuilder.append(rolesString);
+
+        return new User(userDetailsBuilder.toString(), usuario.getPassword(), mapearAutoridadesRoles(usuario.getRoles()));
     }
 
 

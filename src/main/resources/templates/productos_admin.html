@@ -13,6 +13,7 @@
     <link
             href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
             rel="stylesheet"/>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <!--estilos para las validaciones-->
     <style>
         form .invalid-feedback {
@@ -78,7 +79,7 @@
         <input type="submit" class="btn btn-info mb-2" value="buscar">
         &nbsp;
         <!--<input type="button" class="btn btn-secondary mb-2" value="limpiar" onclick="limpiarCampos()">-->
-        <a class="btn btn-secondary mb-2" th:href="@{/admin}">Limpiar</a>
+        <a class="btn btn-secondary mb-2" th:href="@{/admin}">Mostrar todos los productos</a>
     </form>
     <table class="table table-hover">
         <thead>
@@ -133,10 +134,18 @@
 
             <td class="text-end">
                 <a sec:authorize="hasRole('ADMIN')" class="btn btn-primary" th:href="@{'/editar'+${producto.id}}">editar</a>
+                &nbsp;<!--espacio en blanco no rompible-->
                 <a sec:authorize="hasRole('ADMIN')" class="btn btn-primary" th:href="@{'/editar'+${producto.id}}">editar</a>
+                &nbsp;
+                <button sec:authorize="hasRole('ADMIN')" class="btn btn-danger btn-sm"
+                        th:attr="data-producto-id=${producto.id}, data-nombreProducto=${producto.nombre}"
+                        th:onclick="javascript:confirmDelete(this.getAttribute('data-producto-id'), this.getAttribute('data-nombreProducto'))">eliminar
+                </button>
+                <!--
                 <a sec:authorize="hasRole('ADMIN')" class="btn btn-danger btn-sm" th:href="@{/eliminar/{id}(id=${producto.id})}"
                    onclick="return confirm('¿Estas seguro de eliminar al empleado');">eliminar</a>
-                <!--<a class="btn btn-danger btn-sm" th:href="@{'/eliminar/' + ${producto.id}}" onclick="return confirm('¿Estas seguro de eliminar al empleado');">eliminar</a>-->
+                -->
+
             </td>
         </tr>
         </tbody>
@@ -172,6 +181,30 @@
 
 
 </div>
+
+<script th:inline="javascript">
+    function confirmDelete(empleadoId, empleadoNombre) {
+        swal({
+            title: "¿Estás seguro?",
+            //text: "Una vez eliminado, no podrás recuperar a " + empleadoNombre + ".",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            content: {
+                element: "span",
+                attributes: {
+                    innerHTML: "Una vez eliminado, no podrás recuperar a <span style='color: red;'>" + empleadoNombre + "</span>."
+                },
+            },
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                window.location.href = "/eliminar/" + empleadoId;
+            }
+        });
+    }
+</script>
+
 <script
         src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
 
