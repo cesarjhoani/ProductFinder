@@ -103,6 +103,7 @@
                     <div class="mb-3">
                         <label>Sucursal : </label>
                         <select class="form-select" th:field="*{sucursales}">
+                            <option value="">Seleccione una Sucursal</option> <!-- primera opción con texto descriptivo -->
                             <th:block th:each="sucursal : ${listaSucursales}">
                                 <option th:text="${sucursal.nombre}" th:value="${sucursal.id}"></option>
                             </th:block>
@@ -114,6 +115,7 @@
                     <div class="mb-3">
                         <label>Categoria : </label>
                         <select class="form-select" th:field="*{categoria}">
+                            <option value="">Seleccione una categoría</option> <!-- Primera opción con texto descriptivo -->
                             <th:block th:each="categoria : ${listaCategorias}">
                                 <option th:text="${categoria.nombre}" th:value="${categoria.id}"></option>
                             </th:block>
@@ -125,6 +127,7 @@
                     <div class="mb-3">
                         <label>Bodega : </label>
                         <select class="form-select" th:field="*{bodegas}">
+                            <option value="">Seleccione una Bodega</option>
                             <th:block th:each="bodegas : ${listaBodegas}">
                                 <option th:text="${bodegas.nombre}" th:value="${bodegas.id}"></option>
                             </th:block>
@@ -137,6 +140,7 @@
                     <div class="mb-3">
                         <label>Pasillo : </label>
                         <select class="form-select" th:field="*{pasillo}">
+                            <option value="">Seleccione un Pasillo</option>
                             <th:block th:each="pasillo : ${listaPasillos}">
                                 <option th:text="${pasillo.nombre}" th:value="${pasillo.id}"></option>
                             </th:block>
@@ -148,6 +152,7 @@
                     <div class="mb-3">
                         <label>Modulo : </label>
                         <select class="form-select" th:field="*{modulo}">
+                            <option value="">Seleccione un Modulo</option>
                             <th:block th:each="modulo : ${listaModulos}">
                                 <option th:text="${modulo.nombre}" th:value="${modulo.id}"></option>
                             </th:block>
@@ -159,6 +164,7 @@
                     <div class="form-group">
                         <label>Nivel : </label>
                         <select class="form-select" th:field="*{nivel}">
+                            <option value="">Seleccione un nivel</option>
                             <option th:value='1'>uno</option>
                             <option th:value='2'>dos</option>
                             <option th:value='3'>tres</option>

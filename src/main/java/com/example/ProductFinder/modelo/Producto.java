@@ -53,7 +53,7 @@ public class Producto {
     @JoinColumn(name = "modulo_id")
     private Modulo modulo;
 
-    @NotNull
+    @NotEmpty
     private String nivel;
 
     public Producto() {
