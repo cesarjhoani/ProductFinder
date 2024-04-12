@@ -3,6 +3,7 @@ package com.example.ProductFinder.servicio;
 import com.example.ProductFinder.dto.UsuarioRegistroDTO;
 import com.example.ProductFinder.modelo.Rol;
 import com.example.ProductFinder.modelo.Usuario;
+import com.example.ProductFinder.repositorio.RolRepository;
 import com.example.ProductFinder.repositorio.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,12 +28,22 @@ public class UsuarioServicioImpl implements UsuarioServicio {
     @Autowired
     UsuarioRepositorio usuarioRepositorio;
 
+    @Autowired
+    private RolRepository rolRepository;
+
     @Override
     public Usuario guardar(UsuarioRegistroDTO usuarioRegistroDTO) {
 
+        Rol rolUsuario = rolRepository.findByNombre("ROLE_USER");//mandamos a buscar a la base de datos de que si este rol existe o no es null
+        // si el rol no existe pues trae un null y crea el rol,si no pues utiliza el mismo rol un usuario  cuando se registre
+        if(rolUsuario == null){
+            rolUsuario = new Rol("ROLE_USER");
+            rolRepository.save(rolUsuario);
+        }
+
         Usuario usuario = new Usuario(usuarioRegistroDTO.getNombre(), usuarioRegistroDTO.getApellido(), usuarioRegistroDTO.getDocumento(),
                 usuarioRegistroDTO.getSexo(), usuarioRegistroDTO.getTelefono(), usuarioRegistroDTO.getEmail(), passwordEncoder.encode(usuarioRegistroDTO.getPassword()),
-                Arrays.asList(new Rol("ROLE_USER")));
+                Arrays.asList(rolUsuario));
 
         return usuarioRepositorio.save(usuario);
     }
