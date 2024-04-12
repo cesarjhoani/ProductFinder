@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,6 +35,11 @@ public class UsuarioServicioImpl implements UsuarioServicio {
                 Arrays.asList(new Rol("ROLE_USER")));
 
         return usuarioRepositorio.save(usuario);
+    }
+
+    @Override
+    public List<Usuario> listarUsuarios() {
+        return usuarioRepositorio.findAll();
     }
 
     // este metodo lo utiliza authenticationProvider() de la clase SecurityConfiguration  ya que UsuarioServicio extiende UserDetailsService y como la clase UsuarioServicioImpl implementa UsuarioServicio entonces debemos agregar aqui este mismo metodo loadUserByUsername(String username)que hace la autenticacion se valida con el email y password

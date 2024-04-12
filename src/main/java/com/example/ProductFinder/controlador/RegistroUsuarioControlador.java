@@ -1,6 +1,8 @@
 package com.example.ProductFinder.controlador;
 
 import com.example.ProductFinder.dto.UsuarioRegistroDTO;
+import com.example.ProductFinder.modelo.Usuario;
+import com.example.ProductFinder.repositorio.UsuarioRepositorio;
 import com.example.ProductFinder.servicio.UsuarioServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/registro")
@@ -25,6 +28,15 @@ public class RegistroUsuarioControlador {
     model.addAttribute("usuario",new UsuarioRegistroDTO());
     return "registro";
     }
+    @GetMapping("/listarUsuarios")
+    public String listarUsuarios(Model model){
+
+        List<Usuario> listaUsuarios = usuarioServicio.listarUsuarios();
+        model.addAttribute("listaUsuarios",listaUsuarios);
+        return "listaUsuarios";
+
+    }
+
 
     @PostMapping
     public String guardarUsuario(@ModelAttribute("usuario") @Valid UsuarioRegistroDTO registroDTO, BindingResult result){
