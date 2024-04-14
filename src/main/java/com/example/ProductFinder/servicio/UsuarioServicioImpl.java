@@ -33,14 +33,32 @@ public class UsuarioServicioImpl implements UsuarioServicio {
 
     @Override
     public Usuario guardar(UsuarioRegistroDTO usuarioRegistroDTO) {
+            // Buscamos los roles coorespondientes si existen
+        Rol rolAdmin = rolRepository.findByNombre("ROLE_ADMIN");
+        Rol rolUser = rolRepository.findByNombre("ROLE_USER");
 
-        Rol rolUsuario = rolRepository.findByNombre("ROLE_USER");//mandamos a buscar a la base de datos de que si este rol existe o no es null
-        // si el rol no existe pues trae un null y crea el rol,si no pues utiliza el mismo rol un usuario  cuando se registre
-        if(rolUsuario == null){
-            rolUsuario = new Rol("ROLE_USER");
-            rolRepository.save(rolUsuario);
+        // Si el rol "ROLE_ADMIN" no existe, lo creamos
+        if (rolAdmin == null) {
+            rolAdmin = new Rol("ROLE_ADMIN");
+            rolRepository.save(rolAdmin);
         }
 
+        // Si no existe el rol "ROLE_USER", lo creamos
+        if (rolUser == null) {
+            rolUser = new Rol("ROLE_USER");
+            rolRepository.save(rolUser);
+        }
+
+        Rol rolUsuario;
+
+        // Verificamos si no hay usuarios registrados contando cuantos usuarios hay, si hay 2 o mas los demas seran ROLE_USER
+        if (usuarioRepositorio.count() <2 ) {
+             rolUsuario = rolAdmin;
+        } else {
+            rolUsuario = rolUser;
+        }
+
+        // Creamos el usuario con el rol correspondiente
         Usuario usuario = new Usuario(usuarioRegistroDTO.getNombre(), usuarioRegistroDTO.getApellido(), usuarioRegistroDTO.getDocumento(),
                 usuarioRegistroDTO.getSexo(), usuarioRegistroDTO.getTelefono(), usuarioRegistroDTO.getEmail(), passwordEncoder.encode(usuarioRegistroDTO.getPassword()),
                 Arrays.asList(rolUsuario));
