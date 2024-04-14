@@ -1,6 +1,7 @@
 package com.example.ProductFinder.controlador;
 
 import com.example.ProductFinder.dto.UsuarioRegistroDTO;
+import com.example.ProductFinder.modelo.Rol;
 import com.example.ProductFinder.modelo.Usuario;
 import com.example.ProductFinder.repositorio.UsuarioRepositorio;
 import com.example.ProductFinder.servicio.UsuarioServicio;
@@ -32,6 +33,17 @@ public class RegistroUsuarioControlador {
     public String listarUsuarios(Model model){
 
         List<Usuario> listaUsuarios = usuarioServicio.listarUsuarios();
+
+        for(Usuario usuario:listaUsuarios){
+            for(Rol rol:usuario.getRoles()){
+                if("ROLE_ADMIN".equals(rol.getNombre())){
+                    rol.setNombre("ADMINISTRADOR");
+                }else if("ROLE_USER".equals(rol.getNombre())){
+                    rol.setNombre("USUARIO NORMAL");
+                }
+            }
+        }
+
         model.addAttribute("listaUsuarios",listaUsuarios);
         return "listaUsuarios";
 
