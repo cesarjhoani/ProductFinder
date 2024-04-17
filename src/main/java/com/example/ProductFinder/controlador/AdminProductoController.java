@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class AdminProductoController {
@@ -49,7 +51,7 @@ public class AdminProductoController {
     }
 
     @GetMapping("/agregarProducto")
-    public String mostrarFormularioDeNuevoProducto(Model model) {
+    public String mostrarFormularioDeNuevoProducto(Model model,Map<String,Object> modelo) {
         List<Sucursales> listaSucursales = sucursalesService.obtenerSucursales();
         List<Categoria> listaCategorias = categoriaRepository.findAll(Sort.by("nombre"));
         List<Bodegas> listaBodegas = bodegaService.obtenerBodegas();
@@ -61,7 +63,8 @@ public class AdminProductoController {
         model.addAttribute("listaModulos", listaModulos);
         model.addAttribute("listaPasillos", listaPasillos);
         model.addAttribute("producto", new Producto());
-        return "registroProducto";
+        modelo.put("titulo","Registrar Producto");
+        return "registrarOeditarProducto";
     }
 
     @PostMapping("/guardarProducto")
@@ -98,7 +101,7 @@ public class AdminProductoController {
     //@GetMapping("/editar{id}")
     //@GetMapping("/producto/{id}/editar")
     @GetMapping("/editar{id}")
-    public String MostrarFormularioEditarProducto(@PathVariable Integer id, Model model) {
+    public String MostrarFormularioEditarProducto(@PathVariable Integer id, Model model, Map<String,Object> modelo) {
         Producto producto = productoService.obtenerProductoPorID(id);
         //Producto producto = productoRepository.getOne(id);
 
@@ -113,8 +116,8 @@ public class AdminProductoController {
         model.addAttribute("listaBodegas", listaBodegas);
         model.addAttribute("listaModulos", listaModulos);
         model.addAttribute("listaPasillos", listaPasillos);
-
-        return "editarProducto";
+        modelo.put("titulo","Editar Registro");
+        return "registrarOeditarProducto";
     }
 
 
