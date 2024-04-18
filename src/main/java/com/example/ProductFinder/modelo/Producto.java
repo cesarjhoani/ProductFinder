@@ -8,6 +8,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Producto {
@@ -56,6 +58,9 @@ public class Producto {
     @NotEmpty
     private String nivel;
 
+    @OneToMany(mappedBy = "producto",cascade = CascadeType.ALL)
+    private List<ProductoDetalles> detalles = new ArrayList<>();//vamos añadir detalles a este array
+
     public Producto() {
     }
 
@@ -86,6 +91,14 @@ public class Producto {
         this.pasillo = pasillo;
         this.modulo = modulo;
         this.nivel = nivel;
+    }
+// para añadir los detalles a un producto si el cliente quiere
+    public void añadirDetalles(String nombre,String valor){
+        this.detalles.add(new ProductoDetalles(nombre,valor,this));// el this hace referencia al producto actual
+    }
+// para editar los detalles de un producto, si el producto ya a tenido detalles
+    public void editarDetalles(Integer id,String nombre,String valor){
+        this.detalles.add(new ProductoDetalles(id,nombre,valor,this));
     }
 
     public Integer getId() {
@@ -182,5 +195,13 @@ public class Producto {
 
     public void setNivel(String nivel) {
         this.nivel = nivel;
+    }
+
+    public List<ProductoDetalles> getDetalles() {
+        return detalles;
+    }
+
+    public void setDetalles(List<ProductoDetalles> detalles) {
+        this.detalles = detalles;
     }
 }

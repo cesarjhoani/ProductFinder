@@ -99,7 +99,7 @@
                     <div class="mb-3">
                         <label for="imagen" class="form-label">Imagen : </label> <input
                             type="file" name="imagen" id="imagen" class="form-control"
-                            th:field="*{imagen}">
+                            th:field="*{imagen}" required>
                         <div class="invalid-feedback"
                              th:if="${#fields.hasErrors('imagen')}" th:errors="*{imagen}"></div>
                     </div>
@@ -181,6 +181,56 @@
                         <div class="invalid-feedback"
                              th:if="${#fields.hasErrors('nivel')}" th:errors="*{nivel}"></div>
                     </div>
+
+                    <br>
+                    <br>
+
+                    <th:block th:unless="${producto.id==null}" th:each="detalle,status : ${producto.detalles}"><!--si no es nulo me trae el formulario para editar sus detalles, sin embargo si no es nullo ´pero el producto se registro sin detalles y vamos a editar tampoco muestra este formulario de detalles por que no tiene detalles que iterar -->
+                        <input type="hidden" name="detalleId" th:value="${detalle.id}"><!--osea creo en el caso de editar se edita el mismo detalle.id-->
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-4">Detalles#[[${status.count}]]</label>
+                            <div class="col-sm-4">
+                                <input type="text" name="detallesNombre" th:value="${detalle.nombre}" class="form-control">
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="text" name="detallesValor" th:value="${detalle.valor}" class="form-control">
+                            </div>
+                        </div>
+                    </th:block>
+
+                    <th:block th:if="${producto.id == null}">
+
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-4">Detalles#1</label>
+                            <div class="col-sm-4">
+                                <input type="text" name="detallesNombre"  class="form-control" placeholder="nombre">
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="text" name="detallesValor"  class="form-control" placeholder="valor">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-4">Detalles#2</label>
+                            <div class="col-sm-4">
+                                <input type="text" name="detallesNombre"  class="form-control" placeholder="nombre">
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="text" name="detallesValor"  class="form-control" placeholder="valor">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-4">Detalles#3</label>
+                            <div class="col-sm-4">
+                                <input type="text" name="detallesNombre"  class="form-control" placeholder="nombre">
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="text" name="detallesValor"  class="form-control" placeholder="valor">
+                            </div>
+                        </div>
+
+                    </th:block>
                     <br>
                     <div class="text-end">
                         <button type="submit" class="btn btn-primary">Guardar</button>

@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
@@ -68,13 +69,13 @@ public class AdminProductoController {
     }
 
     @PostMapping("/guardarProducto")
-    public String guardarProducto(@ModelAttribute("producto") @Valid Producto producto, BindingResult bindingResult, Model model) {
-
+    public String guardarProducto(@ModelAttribute("producto") @Valid Producto producto, BindingResult bindingResult, Model model, HttpServletRequest request) {
+                // primero valida si los formularios estan completos
         if (bindingResult.hasErrors() || producto.getImagen().isEmpty()) {
-            if (producto.getImagen().isEmpty()) {//volvemos a preguntar para seguir forzando
+            if (producto.getImagen().isEmpty()) {
                 bindingResult.rejectValue("imagen", "MultipartNotEmpty");
             }
-            // si hay un espacio en blanco en el registro vuelvo y mando sus llaves foraneas al formulario
+
             model.addAttribute("producto", producto);
             List<Sucursales> listaSucursales = sucursalesService.obtenerSucursales();
             List<Categoria> listaCategorias = categoriaRepository.findAll(Sort.by("nombre"));
@@ -86,9 +87,25 @@ public class AdminProductoController {
             model.addAttribute("listaBodegas", listaBodegas);
             model.addAttribute("listaModulos", listaModulos);
             model.addAttribute("listaPasillos", listaPasillos);
-            return "registroProducto";
+            return "registrarOeditarProducto";
         }
 
+        // Manejo de detalles
+        String[] detalleId = request.getParameterValues("detalleId");
+        String[] detallesNombre = request.getParameterValues("detallesNombre");
+        String[] detallesValor = request.getParameterValues("detallesValor");
+
+
+        for(int i=0; i<detallesNombre.length; i++) {//si devuelve lleno detallesNombre  desde el formulario edito
+            if (detalleId != null && detalleId.length > 0) {//para editar si ya existen detalles en el producto traido
+                producto.editarDetalles(Integer.valueOf(detalleId[i]), detallesNombre[i], detallesValor[i]);
+            } else if (detallesNombre[i].isEmpty() && detallesValor[i].isEmpty()) {//para registrar producto sin detalles
+                productoService.guardar(producto);
+                return "redirect:/admin";
+            } else {// o para registrar producto con detalles
+                producto.añadirDetalles(detallesNombre[i], detallesValor[i]);
+            }
+        }
 
         String rutaImagen = servicio.almacenarArchivo(producto.getImagen());// retorna el nombre de la imagen original
         producto.setRutaImagen(rutaImagen);
