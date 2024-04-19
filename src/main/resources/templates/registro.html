@@ -4,37 +4,36 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Registro de usuarios</title>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-          crossorigin="anonymous">
-
-    <!-- Optional theme -->
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
-          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        body{
+        background-color: #d4e6f4;
+        }
+    </style>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<!--<h1 class="color">hola mundo</h1>-->
-
-
-<!--navbar-custom-->
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed"
-                    data-toggle="collapse" data-target="#navbar" aria-expanded="false"
-                    aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span> <span
-                    class="icon-bar"></span> <span class="icon-bar"></span> <span
-                    class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#" th:href="@{/}">Registro y
-                inicio de sesión</a>
-        </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#" th:href="@{/login}">Registro y
+                    inicio de sesión</a>
+            </li>
+            <!--
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dropdown
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </li>-->
+        </ul>
     </div>
 </nav>
 
@@ -43,71 +42,78 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
             <div th:if=${param.exito}>
                 <div class="alert alert-info">Se ha registrado exitosamente a
                     la aplicación
                 </div>
             </div>
 
-            <h1>Regístrate</h1>
-            <form th:action="@{/registro}" method="post" th:object="${usuario}">
+            <h1 class="text-center mx-auto">Regístrate</h1>
+            <div class="card-body">
+                <form th:action="@{/registro}" method="post" th:object="${usuario}">
 
-                <div class="form-group">
-                    <label class="control-label" for="nombre">Nombre : </label> <input
-                        id="nombre" type="text" class="form-control" th:field="*{nombre}"
-                         autofocus="autofocus" required th:errorClass="'form-control alert-danger'">
-                    <small class="form-text text-danger" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></small>
-                </div>
+                    <div class="form-group">
+                        <label class="control-label" for="nombre">Nombre : </label> <input
+                            id="nombre" type="text" class="form-control" th:field="*{nombre}"
+                            autofocus="autofocus"  th:errorClass="'form-control alert-danger'">
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('nombre')}"
+                               th:errors="*{nombre}"></small>
+                    </div>
 
-                <div class="form-group">
-                    <label class="control-label" for="apellido">Apellido : </label> <input
-                        id="apellido" class="form-control" th:field="*{apellido}"
-                         autofocus="autofocus" required th:errorClass="'form-control alert-danger'">
-                    <small class="form-text text-danger" th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></small>
-                </div>
+                    <div class="form-group">
+                        <label class="control-label" for="apellido">Apellido : </label> <input
+                            id="apellido" class="form-control" th:field="*{apellido}"
+                            autofocus="autofocus"  th:errorClass="'form-control alert-danger'">
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('apellido')}"
+                               th:errors="*{apellido}"></small>
+                    </div>
 
-                <div class="form-group">
-                    <label class="control-label" for="documento">Documento : </label> <input
-                        id="documento" type="text" class="form-control" th:field="*{documento}"
-                         autofocus="autofocus" required th:errorClass="'form-control alert-danger'">
-                    <small class="form-text text-danger" th:if="${#fields.hasErrors('documento')}" th:errors="*{documento}"></small>
-                </div>
+                    <div class="form-group">
+                        <label class="control-label" for="documento">Documento : </label> <input
+                            id="documento" type="text" class="form-control" th:field="*{documento}"
+                            autofocus="autofocus"  th:errorClass="'form-control alert-danger'">
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('documento')}"
+                               th:errors="*{documento}"></small>
+                    </div>
 
-                <div class="form-group">
-                    <label>Sexo : </label>
-                    <select class="form-control" th:field="*{sexo}">
-                        <option th:value='M'>Masculino</option>
-                        <option th:value='F'>Femenino</option>
-                    </select>
-                </div>
+                    <div class="form-group">
+                        <label>Sexo : </label>
+                        <select class="form-control" th:field="*{sexo}">
+                            <option th:value='M'>Masculino</option>
+                            <option th:value='F'>Femenino</option>
+                        </select>
+                    </div>
 
-                <div class="form-group">
-                    <label class="control-label" for="telefono">Telefono : </label> <input
-                        id="telefono" type="text" class="form-control" th:field="*{telefono}"
-                         autofocus="autofocus" required th:errorClass="'form-control alert-danger'">
-                    <small class="form-text text-danger" th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></small>
-                </div>
+                    <div class="form-group">
+                        <label class="control-label" for="telefono">Telefono : </label> <input
+                            id="telefono" type="text" class="form-control" th:field="*{telefono}"
+                            autofocus="autofocus"  th:errorClass="'form-control alert-danger'">
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('telefono')}"
+                               th:errors="*{telefono}"></small>
+                    </div>
 
-                <div class="form-group">
-                    <label class="control-label" for="email">Email : </label> <input
-                        id="email" type="email" class="form-control" th:field="*{email}"
-                         autofocus="autofocus" required th:errorClass="'form-control alert-danger'">
-                    <small class="form-text text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
-                </div>
+                    <div class="form-group">
+                        <label class="control-label" for="email">Email : </label> <input
+                            id="email" type="email" class="form-control" th:field="*{email}"
+                            autofocus="autofocus"  th:errorClass="'form-control alert-danger'">
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('email')}"
+                               th:errors="*{email}"></small>
+                    </div>
 
-                <div class="form-group">
-                    <label class="control-label" for="password">Password : </label> <input
-                        type="password" id="password" class="form-control" th:field="*{password}"
-                         autofocus="autofocus">
-                </div>
+                    <div class="form-group">
+                        <label class="control-label" for="password">Password : </label> <input
+                            type="password" id="password" class="form-control" th:field="*{password}"
+                            autofocus="autofocus">
+                    </div>
 
 
-                <div class="form-group">
-                    <button type="submit" class="btn btn-success">Registrar</button>
-                    <span>Si estas registrado <a th:href="@{/login}">inicia sesión aqui</a></span>
-                </div>
-            </form>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">Registrar</button>
+                        <span>Si estas registrado <a th:href="@{/login}">inicia sesión aqui</a></span>
+                    </div>
+                </form>
+            </div>
 
         </div>
     </div>
@@ -115,10 +121,9 @@
 
 
 <!-- Latest compiled and minified JavaScript -->
-<script
-        src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>
 

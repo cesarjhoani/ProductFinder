@@ -44,7 +44,7 @@ public class AdminProductoController {
     private PasilloService pasilloService;
 
     @GetMapping("/admin")
-    public String listarProductos(@PageableDefault(sort = "nombre", size = 5) Pageable pageable, Model model, @Param("palabraClave") String palabraClave) {//paginacion por defecto en orden alfabetico por el nombre//recuerde verPaginaDeInicio
+    public String listarProductos(@PageableDefault(sort = "nombre", size = 4) Pageable pageable, Model model, @Param("palabraClave") String palabraClave) {//paginacion por defecto en orden alfabetico por el nombre//recuerde verPaginaDeInicio
         //String palabraClave = "cesar";
         Page<Producto> listaProductos = productoService.obtenerListaProductos(pageable, palabraClave);
         model.addAttribute("listaProductos", listaProductos);

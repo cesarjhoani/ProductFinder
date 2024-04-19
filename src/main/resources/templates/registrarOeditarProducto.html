@@ -12,13 +12,17 @@
     <link
             href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
             rel="stylesheet"/>
-    <!--estilos para las validaciones-->
+
+    <!--estilos para las validaciones y mas-->
     <style>
+        body {
+    background-color: #d4e6f4; /* Azul claro */
+    }
         form .invalid-feedback {
             display: block;
         }
         .custom-input {
-        max-width: 600px; /* Puedes ajustar este valor según lo que desees */
+        max-width: 600px;
     }
         .custom-container {
         margin-top: 40px; /* Margen superior */
@@ -109,7 +113,8 @@
                     <div class="mb-3">
                         <label>Sucursal : </label>
                         <select class="form-select" th:field="*{sucursales}">
-                            <option value="">Seleccione una Sucursal</option> <!-- primera opción con texto descriptivo -->
+                            <option value="">Seleccione una Sucursal</option>
+                            <!-- primera opción con texto descriptivo -->
                             <th:block th:each="sucursal : ${listaSucursales}">
                                 <option th:text="${sucursal.nombre}" th:value="${sucursal.id}"></option>
                             </th:block>
@@ -121,7 +126,8 @@
                     <div class="mb-3">
                         <label>Categoria : </label>
                         <select class="form-select" th:field="*{categoria}">
-                            <option value="">Seleccione una categoría</option> <!-- Primera opción con texto descriptivo -->
+                            <option value="">Seleccione una categoría</option>
+                            <!-- Primera opción con texto descriptivo -->
                             <th:block th:each="categoria : ${listaCategorias}">
                                 <option th:text="${categoria.nombre}" th:value="${categoria.id}"></option>
                             </th:block>
@@ -185,15 +191,19 @@
                     <br>
                     <br>
 
-                    <th:block th:unless="${producto.id==null}" th:each="detalle,status : ${producto.detalles}"><!--si no es nulo me trae el formulario para editar sus detalles, sin embargo si no es nullo ´pero el producto se registro sin detalles y vamos a editar tampoco muestra este formulario de detalles por que no tiene detalles que iterar -->
-                        <input type="hidden" name="detalleId" th:value="${detalle.id}"><!--osea creo en el caso de editar se edita el mismo detalle.id-->
+                    <th:block th:unless="${producto.id==null}" th:each="detalle,status : ${producto.detalles}">
+                        <!--si no es nulo me trae el formulario para editar sus detalles, sin embargo si no es nullo ´pero el producto se registro sin detalles y vamos a editar tampoco muestra este formulario de detalles por que no tiene detalles que iterar -->
+                        <input type="hidden" name="detalleId" th:value="${detalle.id}">
+                        <!--osea creo en el caso de editar se edita el mismo detalle.id-->
                         <div class="form-group row">
                             <label class="col-form-label col-sm-4">Detalles#[[${status.count}]]</label>
                             <div class="col-sm-4">
-                                <input type="text" name="detallesNombre" th:value="${detalle.nombre}" class="form-control">
+                                <input type="text" name="detallesNombre" th:value="${detalle.nombre}"
+                                       class="form-control">
                             </div>
                             <div class="col-sm-4">
-                                <input type="text" name="detallesValor" th:value="${detalle.valor}" class="form-control">
+                                <input type="text" name="detallesValor" th:value="${detalle.valor}"
+                                       class="form-control">
                             </div>
                         </div>
                     </th:block>
@@ -203,30 +213,30 @@
                         <div class="form-group row">
                             <label class="col-form-label col-sm-4">Detalles#1</label>
                             <div class="col-sm-4">
-                                <input type="text" name="detallesNombre"  class="form-control" placeholder="nombre">
+                                <input type="text" name="detallesNombre" class="form-control" placeholder="nombre">
                             </div>
                             <div class="col-sm-4">
-                                <input type="text" name="detallesValor"  class="form-control" placeholder="valor">
+                                <input type="text" name="detallesValor" class="form-control" placeholder="valor">
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-form-label col-sm-4">Detalles#2</label>
                             <div class="col-sm-4">
-                                <input type="text" name="detallesNombre"  class="form-control" placeholder="nombre">
+                                <input type="text" name="detallesNombre" class="form-control" placeholder="nombre">
                             </div>
                             <div class="col-sm-4">
-                                <input type="text" name="detallesValor"  class="form-control" placeholder="valor">
+                                <input type="text" name="detallesValor" class="form-control" placeholder="valor">
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-form-label col-sm-4">Detalles#3</label>
                             <div class="col-sm-4">
-                                <input type="text" name="detallesNombre"  class="form-control" placeholder="nombre">
+                                <input type="text" name="detallesNombre" class="form-control" placeholder="nombre">
                             </div>
                             <div class="col-sm-4">
-                                <input type="text" name="detallesValor"  class="form-control" placeholder="valor">
+                                <input type="text" name="detallesValor" class="form-control" placeholder="valor">
                             </div>
                         </div>
 

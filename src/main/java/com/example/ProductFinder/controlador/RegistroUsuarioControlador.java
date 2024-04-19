@@ -52,11 +52,11 @@ public class RegistroUsuarioControlador {
 
     @PostMapping
     public String guardarUsuario(@ModelAttribute("usuario") @Valid UsuarioRegistroDTO registroDTO, BindingResult result){
-/*
+
         if (result.hasErrors()) {
             // Si hay errores de validación, regresa a la página de registro y muestre los mensahes atravez de la vista
             return "registro";
-        }*/
+        }
 
     usuarioServicio.guardar(registroDTO);
     return "redirect:/registro?exito";// se redirije a /registro o url de las solicitudes de este mismo controlador
