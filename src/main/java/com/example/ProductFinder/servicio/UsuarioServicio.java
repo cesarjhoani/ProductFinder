@@ -9,6 +9,8 @@ import java.util.List;
 public interface UsuarioServicio extends UserDetailsService {
 
     public Usuario guardar(UsuarioRegistroDTO usuarioRegistroDTO);
-
+    public Usuario guardarRol(Usuario usuario);
     public List<Usuario> listarUsuarios();
+
+    public Usuario obtenerUsuarioPorId(Long id);
 }

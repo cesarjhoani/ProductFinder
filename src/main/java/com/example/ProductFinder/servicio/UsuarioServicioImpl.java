@@ -67,8 +67,20 @@ public class UsuarioServicioImpl implements UsuarioServicio {
     }
 
     @Override
+    public Usuario guardarRol(Usuario usuario) {
+        return usuarioRepositorio.save(usuario);
+    }
+
+    @Override
     public List<Usuario> listarUsuarios() {
         return usuarioRepositorio.findAll();
+    }
+
+    @Override
+    public Usuario obtenerUsuarioPorId(Long id) {
+        Usuario usuario =  new Usuario();
+        usuario = usuarioRepositorio.findById(id).orElse(null);
+        return  usuario;
     }
 
     // este metodo lo utiliza authenticationProvider() de la clase SecurityConfiguration  ya que UsuarioServicio extiende UserDetailsService y como la clase UsuarioServicioImpl implementa UsuarioServicio entonces debemos agregar aqui este mismo metodo loadUserByUsername(String username)que hace la autenticacion se valida con el email y password

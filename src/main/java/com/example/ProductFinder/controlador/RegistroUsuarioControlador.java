@@ -3,18 +3,17 @@ package com.example.ProductFinder.controlador;
 import com.example.ProductFinder.dto.UsuarioRegistroDTO;
 import com.example.ProductFinder.modelo.Rol;
 import com.example.ProductFinder.modelo.Usuario;
+import com.example.ProductFinder.repositorio.RolRepository;
 import com.example.ProductFinder.repositorio.UsuarioRepositorio;
 import com.example.ProductFinder.servicio.UsuarioServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.List;
 
 @Controller
@@ -24,11 +23,29 @@ public class RegistroUsuarioControlador {
     @Autowired
     UsuarioServicio usuarioServicio;
 
+    @Autowired
+    RolRepository rolRepository;
+
     @GetMapping
     public String mostrarFormularioDeRegistro(Model model){
     model.addAttribute("usuario",new UsuarioRegistroDTO());
     return "registro";
     }
+    @GetMapping("/editarRol/{id}")
+    public String mostrarFormularioEditarRoles(@PathVariable Long id,Model model){
+        Usuario usuario = usuarioServicio.obtenerUsuarioPorId(id);
+        Collection<Rol> listaRoles = rolRepository.findAll();
+        model.addAttribute("usuario",usuario);
+        model.addAttribute("listaRoles",listaRoles);
+        return "editarRol";
+    }
+    @PostMapping("/roles/guardar")
+    public String editarRoles(@ModelAttribute("usuario") Usuario usuario){
+        usuarioServicio.guardarRol(usuario);
+        return "redirect:/registro/listarUsuarios";
+    }
+
+
     @GetMapping("/listarUsuarios")
     public String listarUsuarios(Model model){
 
