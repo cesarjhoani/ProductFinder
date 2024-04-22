@@ -28,13 +28,14 @@
         .login-form {
             background-color: #fff;
             padding: 20px;
-            border-radius: 5px;
+            border-radius: 30px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
 
         .login-title {
             text-align: center;
             margin-bottom: 30px;
+            font-weight: bold;
         }
 
         .login-btn {
@@ -68,6 +69,15 @@
         .alert {
             margin-bottom: 20px;
         }
+
+        #username {
+            border-radius: 15px;
+        }
+        #password {
+            border-radius: 15px;
+        }
+
+
     </style>
 </head>
 <body>
@@ -96,13 +106,13 @@
                 <form th:action="@{/login}" method="post"><!--este login post viene de SecurityConfiguration-->
 
                     <div th:if=${param.error}>
-                        <div class="alert alert-danger">Usuario o contraseña
+                        <div class="alert alert-danger text-center text-dark">Usuario o contraseña
                             inválidos
                         </div>
                     </div>
 
                     <div th:if=${param.logout}>
-                        <div class="alert alert-info">Ha cerrado sesión exitosamente
+                        <div class="alert alert-success text-center">Ha cerrado sesión exitosamente
                         </div>
                     </div>
 

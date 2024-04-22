@@ -133,7 +133,7 @@ public class AdminProductoController {
         model.addAttribute("listaBodegas", listaBodegas);
         model.addAttribute("listaModulos", listaModulos);
         model.addAttribute("listaPasillos", listaPasillos);
-        modelo.put("titulo","Editar Registro");
+        modelo.put("titulo","Editar Producto");
         return "registrarOeditarProducto";
     }
 

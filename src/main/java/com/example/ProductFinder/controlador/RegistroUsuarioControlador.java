@@ -31,16 +31,33 @@ public class RegistroUsuarioControlador {
     model.addAttribute("usuario",new UsuarioRegistroDTO());
     return "registro";
     }
+
+    //para que el administrador pueda  modificarle un rol a un usuario
     @GetMapping("/editarRol/{id}")
-    public String mostrarFormularioEditarRoles(@PathVariable Long id,Model model){
+    public String mostrarFormularioEditarRolesAusuarios(@PathVariable Long id,Model model){
         Usuario usuario = usuarioServicio.obtenerUsuarioPorId(id);
         Collection<Rol> listaRoles = rolRepository.findAll();
+        //para que en el selector o combo box de editar rol de usuario se vea los cargos con nombres mas entendibles para el usuario
+        // si en un futuro queremos mas roles pondre mejor un switch
+        for(Rol rol: listaRoles){
+            if("ROLE_ADMIN".equals(rol.getNombre())){
+                rol.setNombre("Administrador");
+            }else if ("ROLE_USER".equals(rol.getNombre())){
+                rol.setNombre("Usuario Normal");
+            }else {
+                rol.setNombre(rol.getNombre());
+            }
+
+        }
         model.addAttribute("usuario",usuario);
         model.addAttribute("listaRoles",listaRoles);
         return "editarRol";
     }
+    //edito el rol del usuario sin alterar su contraseña
     @PostMapping("/roles/guardar")
     public String editarRoles(@ModelAttribute("usuario") Usuario usuario){
+        Usuario usuarioOriginal = usuarioServicio.obtenerUsuarioPorId(usuario.getId());
+        usuario.setPassword(usuarioOriginal.getPassword());
         usuarioServicio.guardarRol(usuario);
         return "redirect:/registro/listarUsuarios";
     }
