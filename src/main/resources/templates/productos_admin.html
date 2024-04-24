@@ -65,6 +65,30 @@
 
 <div class="container my-5">
     <h1>Productos</h1>
+    <div th:if="${param.registro}" id="alerta-exito" class="alert alert-success text-center">
+        Producto registrado exitosamente
+    </div>
+    <div th:if="${param.edicion}" id="alerta-exit" class="alert alert-warning text-center">
+        Producto editado exitosamente
+    </div>
+<!--para que se oculte la alerta despues de 2 segundos-->
+    <script th:inline="javascript">
+        setTimeout(function() {
+            var alertaExito = document.getElementById('alerta-exito');
+            if (alertaExito) {// valido que la variable exista o no sea null o undefined
+                alertaExito.style.display = 'none';
+            }
+        }, 3000);
+    </script>
+    <script th:inline="javascript">
+        setTimeout(function() {
+            var alertaExito = document.getElementById('alerta-exit');
+            if (alertaExito) {// valido que la variable exista o no sea null o undefined
+                alertaExito.style.display = 'none';
+            }
+        }, 3000);
+    </script>
+
     <div class="text-end">
         <a href="/agregarProducto" class="btn btn-primary mb-3">
             Agregar Productos </a>
@@ -133,11 +157,13 @@
 
 
             <td class="text-end">
-                <a sec:authorize="hasRole('ADMIN')" class="btn btn-primary" th:href="@{'/editar'+${producto.id}}">editar</a>
+                <a sec:authorize="hasRole('ADMIN')" class="btn btn-success" th:href="@{'/editar'+${producto.id}}">detalles</a>
                 &nbsp;<!--espacio en blanco no rompible-->
-                <a sec:authorize="hasRole('ADMIN')" class="btn btn-primary" th:href="@{'/editar'+${producto.id}}">editar</a>
                 &nbsp;
-                <button sec:authorize="hasRole('ADMIN')" class="btn btn-danger btn-sm"
+                <a sec:authorize="hasRole('ADMIN')" class="btn btn-warning" th:href="@{'/editar'+${producto.id}}">editar</a>
+                &nbsp;&nbsp;
+                &nbsp;
+                <button sec:authorize="hasRole('ADMIN')" class="btn btn-danger"
                         th:attr="data-producto-id=${producto.id}, data-nombreProducto=${producto.nombre}"
                         th:onclick="javascript:confirmDelete(this.getAttribute('data-producto-id'), this.getAttribute('data-nombreProducto'))">eliminar
                 </button>

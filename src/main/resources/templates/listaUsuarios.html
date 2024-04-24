@@ -68,7 +68,7 @@
                         </div>
                     </td>
                     <td>
-                        <a sec:authorize="hasRole('ADMIN')"  class="btn btn-primary" th:href="@{'/registro/editarRol/'+${usuario.id}}">editar</a>
+                        <a sec:authorize="hasRole('ADMIN')"  class="btn btn-warning btn-sm" th:href="@{'/registro/editarRol/'+${usuario.id}}">editar</a>
                     </td>
                 </tbody>
             </table>

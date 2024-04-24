@@ -95,24 +95,29 @@ public class AdminProductoController {
         String[] detallesNombre = request.getParameterValues("detallesNombre");
         String[] detallesValor = request.getParameterValues("detallesValor");
 
-
-        for(int i=0; i<detallesNombre.length; i++) {//si devuelve lleno detallesNombre  desde el formulario edito
-            if (detalleId != null && detalleId.length > 0) {//para editar si ya existen detalles en el producto traido
-                producto.editarDetalles(Integer.valueOf(detalleId[i]), detallesNombre[i], detallesValor[i]);
-            } else if (detallesNombre[i].isEmpty() && detallesValor[i].isEmpty()) {//para registrar producto sin detalles
-                productoService.guardar(producto);
-                return "redirect:/admin";
-            } else {// o para registrar producto con detalles
-                producto.añadirDetalles(detallesNombre[i], detallesValor[i]);
+            if(detallesNombre != null && detallesValor != null) {//primero valido si se devuelven los detalles si es true itera, si no edita un producto existente que tiene id
+                for (int i = 0; i < detallesNombre.length; i++) {//si devuelve lleno itero
+                    if (detalleId != null && detalleId.length > 0) {//para editar si ya existen detalles en el producto traido
+                        producto.editarDetalles(Integer.valueOf(detalleId[i]), detallesNombre[i], detallesValor[i]);
+                    } else if (detallesNombre[i].isEmpty() && detallesValor[i].isEmpty()) {//para registrar productos  con detalles vacios o con menos de los 3 detalles ya que con uno que tenga vacio se cunple esta condicion
+                        String rutaImage = servicio.almacenarArchivo(producto.getImagen());
+                        producto.setRutaImagen(rutaImage);
+                        productoService.guardar(producto);
+                        return "redirect:/admin?registro";
+                    }else {// o para registrar producto con todos sus 3 detalles
+                        producto.añadirDetalles(detallesNombre[i], detallesValor[i]);
+                    }
+                }
             }
-        }
+
+            // detallesNombre == null || detallesValor == null || detallesNombre.length == 0 || detallesValor.length == 0
 
         String rutaImagen = servicio.almacenarArchivo(producto.getImagen());// retorna el nombre de la imagen original
         producto.setRutaImagen(rutaImagen);
 
         productoService.guardar(producto);
 
-        return "redirect:/admin";
+        return "redirect:/admin?edicion";
     }
 
     //@GetMapping("/editar{id}")
