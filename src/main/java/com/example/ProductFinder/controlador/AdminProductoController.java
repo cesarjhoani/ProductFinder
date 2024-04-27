@@ -104,7 +104,7 @@ public class AdminProductoController {
                         producto.setRutaImagen(rutaImage);
                         productoService.guardar(producto);
                         return "redirect:/admin?registro";
-                    }else {// o para registrar producto con todos sus 3 detalles
+                    }else {// si los detalles no estan vacios, se añaden al producto // se añade este detalle al producto actual
                         producto.añadirDetalles(detallesNombre[i], detallesValor[i]);
                     }
                 }
