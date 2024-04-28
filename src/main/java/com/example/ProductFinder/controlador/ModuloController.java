@@ -22,6 +22,7 @@ public class ModuloController {
     public String ListarModulos(Model model){
         List<Modulo> ListaModulos = moduloService.obtenerModulos();
         model.addAttribute("ListaModulos",ListaModulos);
+        model.addAttribute("titulo","listado de modulos");
         return "modulos";
     }
 

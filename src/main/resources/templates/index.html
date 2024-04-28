@@ -30,7 +30,7 @@
 </head>
 <body>
 
-<header>
+<header th:fragment="header">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="/">EURO SUPERMERCADO</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -43,12 +43,12 @@
                 <!--<li class="nav-item"><a class="nav-link">Bienvenido [[${#httpServletRequest.remoteUser}]]
                 </a>-->
                 </li>
-                <a class="navbar-brand" href="#" th:href="@{/categorias}">Categorias</a>
+                <a class="navbar-brand" href="#" th:href="@{/}">inicio</a>
                 <a class="navbar-brand" href="#" th:href="@{/admin}">productos</a>
-                <a class="navbar-brand" href="#" th:href="@{/bodegas}">Bodegas</a>
                 <a class="navbar-brand" href="#" th:href="@{/sucursales}">Sucursales</a>
+                <a class="navbar-brand" href="#" th:href="@{/categorias}">Categorias</a>
+                <a class="navbar-brand" href="#" th:href="@{/bodegas}">Bodegas</a>
                 <a class="navbar-brand" href="#" th:href="@{/pasillos}">Pasillos</a>
-                <a class="navbar-brand" href="#" th:href="@{/modulos}">Modulos</a>
                 <a class="navbar-brand" href="#" th:href="@{/modulos}">Modulos</a>
                 <a class="navbar-brand" href="#" th:href="@{/registro/listarUsuarios}">Usuarios</a>
             </ul>
@@ -70,11 +70,25 @@
     </div>
     <div class="row">
         <div class="col-md-3 my-5" th:each="producto : ${ultimasProductos}" th:object="${producto}">
-            <img th:src="@{/imagenes/{filename}(filename=${producto.rutaImagen})}" th:alt="${producto.nombre}"
+            <img style="width: 265px; height: 250px;" th:src="@{/imagenes/{filename}(filename=${producto.rutaImagen})}" th:alt="${producto.nombre}"
                  class="card-img-top">
             <div class="card-body">
-                <h2 class="card-title fs-6" th:text="${producto.nombre}"></h2>
-                <p th:text="*{#temporals.format(fechaRegistro,'dd/MM/yyyy')}" class="text-muted small"></p>
+                <h4 class="card-title fs-6"><span th:text="${producto.nombre}"></span></h4>
+                <h7 class="card-title fs-6">Codico de barras: <span th:text="${producto.codigoBarras}"></span></h7>
+                <br>
+                <h7 class="card-title fs-6">Sucursal: <span th:text="${producto.sucursales.nombre}"></span></h7>
+                <br>
+                <h7 class="card-title fs-6">Categoria: <span th:text="${producto.categoria.nombre}"></span></h7>
+                <br>
+                <h7 class="card-title fs-6">Bodega: <span th:text="${producto.bodegas.nombre}"></span></h7>
+                <br>
+                <h7 class="card-title fs-6">Pasillo: <span th:text="${producto.pasillo.nombre}"></span></h7>
+                <br>
+                <h7 class="card-title fs-6">Modulo: <span th:text="${producto.modulo.nombre}"></span></h7>
+                <br>
+                <h7 class="card-title fs-6">Nivel: <span th:text="${producto.nivel}"></span></h7>
+                <br>
+                <p><small>Fecha de registro: <span th:text="*{#temporals.format(fechaRegistro,'dd/MM/yyyy')}"></span></small></p>
             </div>
 
         </div>
@@ -82,10 +96,11 @@
 
 </div>
 
-<div>
-    <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin}">Ir a hola.html</a>
-    <a th:href="@{/publico}">Ir a publico.html</a>
-</div>
+<footer th:fragment="footer" class="footer bg-dark text-light text-center">
+    <div class="container">
+        <span class="text-muted">© 2024  EuroSupermercado. Todos los derechos reservados.</span>
+    </div>
+</footer>
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

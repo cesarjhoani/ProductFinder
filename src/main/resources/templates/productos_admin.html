@@ -47,11 +47,13 @@
                     <a class="nav-link" href="#">productos</a>
                 </li>
                 <li class="nav-item">
+                    <a class="navbar-brand" href="#" th:href="@{/admin}">productos</a>
+                    <a class="navbar-brand" href="#" th:href="@{/sucursales}">Sucursales</a>
                     <a class="navbar-brand" href="#" th:href="@{/categorias}">Categorias</a>
                     <a class="navbar-brand" href="#" th:href="@{/bodegas}">Bodegas</a>
-                    <a class="navbar-brand" href="#" th:href="@{/sucursales}">Sucursales</a>
                     <a class="navbar-brand" href="#" th:href="@{/pasillos}">Pasillos</a>
                     <a class="navbar-brand" href="#" th:href="@{/modulos}">Modulos</a>
+                    <a class="navbar-brand" href="#" th:href="@{/registro/listarUsuarios}">Usuarios</a>
                 </li>
 
             </ul>
@@ -118,11 +120,11 @@
         </thead>
         <tbody>
         <tr th:each="producto : ${listaProductos}" th:object="${producto}">
-            <td style="width: 200px; height: 200px;">
+            <td style="width: 300px; height: 180px;">
                 <a th:href="@{/imagenes/{filename}(filename=${producto.rutaImagen})}" data-fancybox>
                     <!--invoco el controlador imagenes rescontroller-->
-                    <img th:src="@{/imagenes/{filename}(filename=${producto.rutaImagen})}" alt=""
-                         class="img-thumbnail w-100"><!--src para generar la url de la img-->
+                    <img style="width: 300px; height: 180px;" th:src="@{/imagenes/{filename}(filename=${producto.rutaImagen})}" alt=""
+                         class="img-thumbnail w-100"><!--src para generar la url de la img y img-thumbnail w-100 para que ocupe el espacio de su contenedor-->
                 </a>
 
             </td><!--el de la imagen-->

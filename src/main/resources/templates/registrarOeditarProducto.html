@@ -47,10 +47,19 @@
                     <a class="nav-link" href="#">productos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">administracion</a>
+                    <a class="navbar-brand" href="#" th:href="@{/admin}">productos</a>
+                    <a class="navbar-brand" href="#" th:href="@{/sucursales}">Sucursales</a>
+                    <a class="navbar-brand" href="#" th:href="@{/categorias}">Categorias</a>
+                    <a class="navbar-brand" href="#" th:href="@{/bodegas}">Bodegas</a>
+                    <a class="navbar-brand" href="#" th:href="@{/pasillos}">Pasillos</a>
+                    <a class="navbar-brand" href="#" th:href="@{/modulos}">Modulos</a>
+                    <a class="navbar-brand" href="#" th:href="@{/registro/listarUsuarios}">Usuarios</a>
                 </li>
 
             </ul>
+            <form class="d-flex" th:action="@{/logout}" method="post">
+                <input class="btn btn-secondary" type="submit" value="Cerrar sesión"/>
+            </form>
 
         </div>
     </div>
@@ -251,11 +260,6 @@
         </div>
     </div>
 </div>
-<footer class="footer bg-dark text-light text-center">
-    <div class="container">
-        <span class="text-muted">© 2024  Empresa. Todos los derechos reservados.</span>
-    </div>
-</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"

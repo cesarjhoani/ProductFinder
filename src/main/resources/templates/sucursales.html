@@ -9,44 +9,23 @@
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/0fd39519e2.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
-<header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="/">EURO SUPERMERCADO</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse"
-                data-target="#navbarNav" aria-controls="navbarNav"
-                aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link">Bienvenido [[${#httpServletRequest.remoteUser}]]
-                </a>
-                </li>
-                <a class="navbar-brand" href="#" th:href="@{/categorias}">Categorias</a>
-                <a class="navbar-brand" href="#" th:href="@{/bodegas}">Bodegas</a>
-                <a class="navbar-brand" href="#" th:href="@{/sucursales}">Bodegas</a>
-            </ul>
-            <form class="d-flex" th:action="@{/logout}" method="post">
-                <input class="btn btn-secondary" type="submit" value="Cerrar sesión"/>
-            </form>
-        </div>
-    </nav>
-</header>
-
+<header th:replace="/index :: header"></header>
 
 <br>
 <br>
-
 
 <div class="py-4 ml-5 mr-5">
     <div class="card bg-light">
         <div class="card-header" th:text="${titulo}"></div>
         <div class="card-body">
             <h4 class="card-title">
-                <a th:href="@{/sucursales/nuevo}" class="btn btn-primary">Agregar Sucursales</a>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarSucursal">
+                    <i class="fa-solid fa-circle-plus"></i> Agregar Sucursal
+                </button>
             </h4>
             <table class="table table-striped">
                 <thead style="background-color: #75c7ff; color: white;">
@@ -55,6 +34,8 @@
                     <th>Nombre</th>
                     <th>Telefono</th>
                     <th>Direccion</th>
+                    <th>Accion</th>
+                    <br>
                 </tr>
                 </thead>
                 <tbody>
@@ -63,16 +44,90 @@
                     <td th:text="${sucursal.nombre}"></td>
                     <td th:text="${sucursal.telefono}"></td>
                     <td th:text="${sucursal.dirrecion}"></td>
+                    <td>
+                        <button type="button" class="btn btn-warning" data-toggle="modal"
+                                data-target="#modalEditarSucursal" th:attr="data-id=${sucursal.id}">
+                            <i class="fa-regular fa-pen-to-square"></i>Editar
+                        </button>
+                    </td>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+<!--Modal de registro-->
+<div class="modal fade" id="modalAgregarSucursal" tabindex="-1" role="dialog" aria-labelledby="modalAgregarSucursalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="modalAgregarSucursalLabel">Agregar Sucursal</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="formAgregarSucursal" th:action="@{/sucursales/guardarOeditar}" method="post">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="nombreSucursal" class="font-weight-bold">Nombre de la Sucursal</label>
+                        <input type="text" id="nombreSucursal" name="nombre" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="telefonoSucursal" class="font-weight-bold">Telefono</label>
+                        <input type="text" id="telefonoSucursal" name="telefono" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dirrecionSucursal" class="font-weight-bold">Direccion.</label>
+                        <input type="text" id="dirrecionSucursal" name="dirrecion" class="form-control" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
+<!-- Modal de edición -->
+<div class="modal fade" id="modalEditarSucursal" tabindex="-1" role="dialog" aria-labelledby="modalEditarSucursalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-warning text-white">
+                <h5 class="modal-title" id="modalEditarSucursalLabel">Editar Sucursal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="formEditarBodega" th:action="@{/sucursales/guardarOeditar}" method="post">
+                <div class="modal-body">
+                    <input type="hidden" id="editId" name="id" />
+                    <div class="form-group">
+                        <label for="editNombreSucursal" class="font-weight-bold">Nombre de la Sucursal</label>
+                        <input type="text" id="editNombreSucursal" name="nombre" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editTelefono" class="font-weight-bold">Telefono</label>
+                        <input type="text" id="editTelefono" name="telefono" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editDirrecion" class="font-weight-bold">Direccion</label>
+                        <input type="text" id="editDirrecion" name="dirrecion" class="form-control" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-warning text-white">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <!-- Latest compiled and minified JavaScript -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha384-xBuQ/xzmlsLoJpyjoggmTEz8OWUFM0/RC5BsqQBDX2v5cMvDHcMakNTNrHIW2I5f"
         crossorigin="anonymous"></script>
 <script
         src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
@@ -82,5 +137,30 @@
         src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#modalEditarSucursal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Botón que activó el modal
+            var id = button.data('id'); // Extraer el ID de los datos atributo
+            var modal = $(this);
+            modal.find('.modal-body #editId').val(id); //Buscar y Inyectar el ID en el campo oculto
+
+            // Aquí realizamos una petición AJAX para obtener los datos de la categoría
+            $.ajax({
+                url: "/sucursales/" + id,
+                method: "GET",
+                success: function(sucursal) {// el objecto Sucursal traido como respuesta de la solicitud
+                    modal.find('.modal-body #editNombreSucursal').val(sucursal.nombre); // Llenar el campo de nombre con el valor recibido
+                    modal.find('.modal-body #editTelefono').val(sucursal.telefono);
+                    modal.find('.modal-body #editDirrecion').val(sucursal.dirrecion);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error al obtener la Sucursal :", error);
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>
