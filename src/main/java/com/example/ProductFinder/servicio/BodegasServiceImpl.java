@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class BodegasServiceImpl implements BodegaService{
     @Autowired
@@ -15,5 +17,15 @@ public class BodegasServiceImpl implements BodegaService{
          List<Bodegas> listaBodegas = bodegaRepository.findAll();
 
         return listaBodegas;
+    }
+
+    @Override
+    public void guardarOeditarBodega(Bodegas bodegas) {
+        bodegaRepository.save(bodegas);
+    }
+
+    @Override
+    public Optional<Bodegas> getBodegaById(Integer id) {
+        return bodegaRepository.findById(id);
     }
 }

@@ -9,6 +9,7 @@
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/0fd39519e2.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -45,7 +46,9 @@
         <div class="card-header" th:text="${titulo}"></div>
         <div class="card-body">
             <h4 class="card-title">
-                <a th:href="@{/bodegas/nuevo}" class="btn btn-primary">Agregar Bodega</a>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarBodega">
+                    <i class="fa-solid fa-circle-plus"></i> Agregar Bodegas
+                </button>
             </h4>
             <table class="table table-striped">
                 <thead style="background-color: #75c7ff; color: white;">
@@ -53,6 +56,7 @@
                     <th>ID</th>
                     <th>Nombre</th>
                     <th>Temperatura</th>
+                    <th>Accion</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -60,16 +64,84 @@
                     <td th:text="${bodega.id}"></td>
                     <td th:text="${bodega.nombre}"></td>
                     <td th:text="${bodega.temperatura}"></td>
+                    <td>
+                        <button type="button" class="btn btn-warning" data-toggle="modal"
+                                data-target="#modalEditarBodega" th:attr="data-id=${bodega.id}">
+                            <i class="fa-regular fa-pen-to-square"></i>Editar
+                        </button>
+                    </td>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 
+<!-- Modal Registro -->
+<div class="modal fade" id="modalAgregarBodega" tabindex="-1" role="dialog" aria-labelledby="modalAgregarBodegaLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="modalAgregarBodegaLabel">Agregar Bodega</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="formAgregarBodega" th:action="@{/bodegas/guardarOeditar}" method="post">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="nombreBodega" class="font-weight-bold">Nombre de la Bodega</label>
+                        <input type="text" id="nombreBodega" name="nombre" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="temperaturaBodega" class="font-weight-bold">temperatura bodega</label>
+                        <input type="text" id="temperaturaBodega" name="temperatura" class="form-control" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de edición -->
+<div class="modal fade" id="modalEditarBodega" tabindex="-1" role="dialog" aria-labelledby="modalEditarBodegaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-warning text-white">
+                <h5 class="modal-title" id="modalEditarBodegaLabel">Editar Bodega</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="formEditarBodega" th:action="@{/bodegas/guardarOeditar}" method="post">
+                <div class="modal-body">
+                    <input type="hidden" id="editId" name="id" />
+                    <div class="form-group">
+                        <label for="editNombreBodega" class="font-weight-bold">Nombre de la Bodega</label>
+                        <input type="text" id="editNombreBodega" name="nombre" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editTemperaturaBodega" class="font-weight-bold">Temperatura Bodega</label>
+                        <input type="text" id="editTemperaturaBodega" name="temperatura" class="form-control" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-warning text-white">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 
 <!-- Latest compiled and minified JavaScript -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha384-xBuQ/xzmlsLoJpyjoggmTEz8OWUFM0/RC5BsqQBDX2v5cMvDHcMakNTNrHIW2I5f"
         crossorigin="anonymous"></script>
 <script
         src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
@@ -80,4 +152,27 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 </body>
+<script>
+    $(document).ready(function() {
+        $('#modalEditarBodega').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Botón que activó el modal
+            var id = button.data('id'); // Extraer el ID de los datos atributo
+            var modal = $(this);
+            modal.find('.modal-body #editId').val(id); //Buscar y Inyectar el ID en el campo oculto
+
+            // Aquí realizamos una petición AJAX para obtener los datos de la categoría
+            $.ajax({
+                url: "/bodegas/" + id,
+                method: "GET",
+                success: function(data) {//data el objecto modulo traido como respuesta de la solicitud
+                    modal.find('.modal-body #editNombreBodega').val(data.nombre); // Llenar el campo de nombre con el valor recibido
+                    modal.find('.modal-body #editTemperaturaBodega').val(data.temperatura);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error al obtener la Bodega :", error);
+                }
+            });
+        });
+    });
+</script>
 </html>

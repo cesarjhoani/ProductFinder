@@ -79,18 +79,18 @@
 <!-- Modal -->
 <div class="modal fade" id="modalAgregarCategoria" tabindex="-1" role="dialog"
      aria-labelledby="modalAgregarCategoriaLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title" id="modalAgregarCategoriaLabel">Agregar Categoria</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="formAgregarModulo" th:action="@{categorias/guardar}" method="post">
+            <form id="formAgregarCategoria" th:action="@{categorias/guardar}" method="post">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="nombreCategoria">Nombre del Modulo</label>
+                        <label for="nombreCategoria" class="font-weight-bold">Nombre de la categoria</label>
                         <input type="text" id="nombreCategoria" name="nombre" class="form-control" required>
                     </div>
                 </div>
@@ -106,9 +106,9 @@
 <!-- Modal de edición -->
 <div class="modal fade" id="modalEditarCategoria" tabindex="-1" role="dialog"
      aria-labelledby="modalEditarCategoriaLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-warning text-white">
                 <h5 class="modal-title" id="modalEditarCategoriaLabel">Editar Categoría</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -118,13 +118,13 @@
                 <div class="modal-body">
                     <input type="hidden" id="editId" name="id"/>
                     <div class="form-group">
-                        <label for="editNombreCategoria">Nombre de la categoría</label>
+                        <label for="editNombreCategoria" class="font-weight-bold">Nombre de la categoría</label>
                         <input type="text" id="editNombreCategoria" name="nombre" class="form-control" required>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="submit" class="btn btn-warning text-white">Guardar</button>
                 </div>
             </form>
         </div>

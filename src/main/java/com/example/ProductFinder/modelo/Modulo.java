@@ -7,7 +7,7 @@ public class Modulo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(length = 2,nullable = false,unique = true)
+    @Column(length = 60,nullable = false,unique = true)
     private String nombre;
 
     public Modulo() {

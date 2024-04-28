@@ -77,18 +77,18 @@
 <!-- Modal Registro -->
 <div class="modal fade" id="modalAgregarModulo" tabindex="-1" role="dialog" aria-labelledby="modalAgregarModuloLabel"
      aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title" id="modalAgregarModuloLabel">Agregar Modulo</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <form id="formAgregarModulo" th:action="@{/modulos/guardarOeditar}" method="post">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="nombreModulo">Nombre del Modulo</label>
+                        <label for="nombreModulo" class="font-weight-bold">Nombre del Modulo</label>
                         <input type="text" id="nombreModulo" name="nombre" class="form-control" required>
                     </div>
                 </div>
@@ -103,9 +103,9 @@
 
 <!-- Modal de edición -->
 <div class="modal fade" id="modalEditarModulo" tabindex="-1" role="dialog" aria-labelledby="modalEditarModuloLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-warning text-white">
                 <h5 class="modal-title" id="modalEditarModuloLabel">Editar Modulo</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -115,13 +115,13 @@
                 <div class="modal-body">
                     <input type="hidden" id="editId" name="id" />
                     <div class="form-group">
-                        <label for="editNombreModulo">Nombre del Modulo</label>
+                        <label for="editNombreModulo" class="font-weight-bold">Nombre del Modulo</label>
                         <input type="text" id="editNombreModulo" name="nombre" class="form-control" required>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="submit" class="btn btn-warning text-white">Guardar</button>
                 </div>
             </form>
         </div>

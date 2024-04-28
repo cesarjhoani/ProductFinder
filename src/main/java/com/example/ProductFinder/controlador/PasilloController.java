@@ -5,9 +5,10 @@ import com.example.ProductFinder.servicio.PasilloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class PasilloController {
@@ -21,4 +22,20 @@ public class PasilloController {
         model.addAttribute("titulo","Listado de pasillos");
         return "pasillos";
     }
+
+    @PostMapping("/pasillos/guardarOeditar")
+    public String guardarOeditarPasillo(@ModelAttribute("pasillo")Pasillo pasillo){
+        pasilloService.guardar(pasillo);
+        return "redirect:/pasillos";
+    }
+
+    @GetMapping("/pasillos/{id}")
+    @ResponseBody
+    public Pasillo getPasilloById(@PathVariable Integer id){
+        Optional<Pasillo> optionalPasillo = pasilloService.getPasilloById(id);
+        return optionalPasillo.orElse(null);
+    }
+
+
+
 }
