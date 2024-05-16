@@ -13,8 +13,8 @@
     <link
             href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
             rel="stylesheet"/>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="https://kit.fontawesome.com/0fd39519e2.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <!--estilos para las validaciones-->
     <style>
         form .invalid-feedback {
@@ -213,23 +213,43 @@
 </div>
 
 <script th:inline="javascript">
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: "btn btn-success",
+            cancelButton: "btn btn-danger"
+        },
+        buttonsStyling: false
+    });
+
     function confirmDelete(productoId, productoNombre) {
-        swal({
+        swalWithBootstrapButtons.fire({
             title: "¿Estás seguro?",
-            //text: "Una vez eliminado, no podrás recuperar a " + productoNombre + ".",
+            html: "Una vez eliminado, no podrás recuperar a <span style='color: red;'>" + productoNombre + "</span>.",
             icon: "warning",
-            buttons: true,
-            dangerMode: true,
-            content: {
-                element: "span",
-                attributes: {
-                    innerHTML: "Una vez eliminado, no podrás recuperar a <span style='color: red;'>" + productoNombre + "</span>."
-                },
-            },
-        })
-        .then((willDelete) => {
-            if (willDelete) {
-                window.location.href = "/eliminar/" + productoId;
+            showCancelButton: true,
+            confirmButtonText: "Sí, eliminarlo",
+            cancelButtonText: "No, cancelar",
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Mostrar mensaje de eliminación antes de redirigir
+                swalWithBootstrapButtons.fire({
+                    title: "Eliminando...",
+                    text: "Por favor espere...",
+                    icon: "success",
+                    showConfirmButton: false
+                });
+
+                // Redirigir después de un breve retraso para que se muestre el mensaje
+                setTimeout(function() {
+                    window.location.href = "/eliminar/" + productoId;
+                }, 1300); // Espera 1 segundo antes de redirigir
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                swalWithBootstrapButtons.fire(
+                    "Cancelado",
+                    "Este producto esta seguro :)",
+                    "error"
+                );
             }
         });
     }

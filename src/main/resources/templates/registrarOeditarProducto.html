@@ -4,14 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Registrar Productos</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"/>
-    <link
-            href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
-            rel="stylesheet"/>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
     <!--estilos para las validaciones y mas-->
     <style>
@@ -73,7 +69,7 @@
             <h1 class="text-center" th:text="${titulo}">&nbsp;&nbsp;</h1>
             <br>
             <div class="card-body">
-                <form th:action="@{/guardarProducto}" method="post" th:object="${producto}"
+                <form id="productoForm" th:action="@{/guardarProducto}" method="post" th:object="${producto}"
                       enctype="multipart/form-data">
                     <!--enctype="multipart/form-data" se utiliza cuando el formulario incluye archivos adjuntos, como imágenes, archivos de audio, videos, etc.-->
 
@@ -91,7 +87,7 @@
                                th:errors="*{nombre}"></small>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label for="codigoBarras" class="form-label">Codigo de Barras : </label>
                         <textarea id="codigoBarras" placeholder="Digite codigo de barras"
                                   class="form-control" th:field="*{codigoBarras}"></textarea>
@@ -99,7 +95,7 @@
                              th:if="${#fields.hasErrors('codigoBarras')}" th:errors="*{codigoBarras}"></div>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label for="fechaRegistro" class="form-label">Fecha de
                             Registro :</label> <input type="date" id="fechaRegistro"
                                                       placeholder="Digite la fecha de registro" class="form-control"
@@ -109,7 +105,7 @@
                              th:errors="*{fechaRegistro}"></div>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label for="imagen" class="form-label">Imagen : </label> <input
                             type="file" name="imagen" id="imagen" class="form-control"
                             th:field="*{imagen}" required>
@@ -119,9 +115,9 @@
 
 
                     <br>
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label>Sucursal : </label>
-                        <select class="form-select" th:field="*{sucursales}">
+                        <select class="form-control" th:field="*{sucursales}">
                             <option value="">Seleccione una Sucursal</option>
                             <!-- primera opción con texto descriptivo -->
                             <th:block th:each="sucursal : ${listaSucursales}">
@@ -132,9 +128,9 @@
                              th:if="${#fields.hasErrors('sucursales')}" th:errors="*{sucursales}"></div>
                     </div>
                     <br>
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label>Categoria : </label>
-                        <select class="form-select" th:field="*{categoria}">
+                        <select class="form-control" th:field="*{categoria}">
                             <option value="">Seleccione una categoría</option>
                             <!-- Primera opción con texto descriptivo -->
                             <th:block th:each="categoria : ${listaCategorias}">
@@ -145,9 +141,9 @@
                              th:if="${#fields.hasErrors('categoria')}" th:errors="*{categoria}"></div>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label>Bodega : </label>
-                        <select class="form-select" th:field="*{bodegas}">
+                        <select class="form-control" th:field="*{bodegas}">
                             <option value="">Seleccione una Bodega</option>
                             <th:block th:each="bodegas : ${listaBodegas}">
                                 <option th:text="${bodegas.nombre}" th:value="${bodegas.id}"></option>
@@ -158,9 +154,9 @@
                     </div>
                     <br>
 
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label>Pasillo : </label>
-                        <select class="form-select" th:field="*{pasillo}">
+                        <select class="form-control" th:field="*{pasillo}">
                             <option value="">Seleccione un Pasillo</option>
                             <th:block th:each="pasillo : ${listaPasillos}">
                                 <option th:text="${pasillo.nombre}" th:value="${pasillo.id}"></option>
@@ -170,9 +166,9 @@
                              th:if="${#fields.hasErrors('pasillo')}" th:errors="*{pasillo}"></div>
                     </div>
                     <br>
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label>Modulo : </label>
-                        <select class="form-select" th:field="*{modulo}">
+                        <select class="form-control" th:field="*{modulo}">
                             <option value="">Seleccione un Modulo</option>
                             <th:block th:each="modulo : ${listaModulos}">
                                 <option th:text="${modulo.nombre}" th:value="${modulo.id}"></option>
@@ -184,7 +180,7 @@
                     <br>
                     <div class="form-group">
                         <label>Nivel : </label>
-                        <select class="form-select" th:field="*{nivel}">
+                        <select class="form-control" th:field="*{nivel}">
                             <option value="">Seleccione un nivel</option>
                             <option th:value='1'>uno</option>
                             <option th:value='2'>dos</option>
@@ -272,5 +268,53 @@
         src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
 <script
         src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
+
+<script>
+    $(document).ready(function() {
+        $('#productoForm').submit(function(e) {
+            e.preventDefault(); // Evita que el formulario se envíe normalmente
+
+            // Verifica si todos los campos están llenos
+            var nombre = $('#nombre').val(); // esto es de jquery y val para obtener el valor
+            var codigoBarras = $('#codigoBarras').val();
+            var fechaRegistro = $('#fechaRegistro').val();
+            var imagen = $('#imagen').val();
+            var sucursal = $('#sucursal').val();
+            var categoria = $('#categoria').val();
+            var bodega = $('#bodega').val();
+            var pasillo = $('#pasillo').val();
+            var modulo = $('#modulo').val();
+            var nivel = $('#nivel').val();
+
+            if (nombre !== "" && codigoBarras !== "" && fechaRegistro !== "" && imagen !== "" && sucursal !== "" && categoria !== "" && bodega !== "" && pasillo !== "" && modulo !== "" && nivel !== "") {
+                // Si todos los campos están llenos, muestra la alerta
+                Swal.fire({
+                    title: "¡Bien hecho!",
+                    text: "¡Producto registrado!",
+                    icon: "success",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Envía el formulario si se hace clic en "OK"
+                        $('#productoForm').off('submit').submit();
+                    }
+                });
+            } else {
+                // Si falta algún campo, muestra una alerta de error
+                Swal.fire({
+                    title: "Error",
+                    text: "Por favor, complete todos los campos",
+                    icon: "error",
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    });
+</script>
+
+
 </body>
 </html>

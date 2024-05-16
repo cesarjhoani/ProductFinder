@@ -9,10 +9,18 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AndRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.stereotype.Component;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
@@ -37,12 +45,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
         auth.authenticationProvider(authenticationProvider());
     }
 
+    // se configura un éxito de inicio de sesión personalizado utilizando la interfax AuthenticationSuccessHandler.
+    @Component
+    public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+
+        @Override
+        public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException, IOException {
+            response.sendRedirect("/");
+        }
+    }
+
     @Override //sobrescribo el metodo configure que extiende WebSecurityConfigurerAdapter, la cual es una clase de utilidad para saber como deseamos configurar la seguridad
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers(
                 "/registro**",
                         "/error**"
                 ).permitAll()
+                .antMatchers("/static/**").denyAll() // Denegar acceso a la carpeta static y su contenido
                 //.antMatchers("/hola**").hasRole("ADMIN")
                 //.antMatchers("/hola").hasAuthority("OTROROL")  POR si quiere autorizar a un rol en especifico sin el porefijo ROLE_
                 //.antMatchers("/admin","/publico").hasRole("ADMIN")
@@ -50,8 +69,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                //.defaultSuccessUrl("/inicio")  por si quiero que se redirija a una pagina por defecto despues de que inice sesion
+                //.defaultSuccessUrl("/modulos")  //por si quiero que se redirija a una pagina por defecto despues de que inice sesion
                 .permitAll()
+                .successHandler(new CustomAuthenticationSuccessHandler()) // Use el manejador de éxito personalizado
                 .and()
                 .logout()
                 .invalidateHttpSession(true)
