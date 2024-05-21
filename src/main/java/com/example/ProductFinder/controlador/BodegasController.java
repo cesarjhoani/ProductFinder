@@ -21,7 +21,7 @@ public class BodegasController {
     public String ListarBodegas(Model model){
         List<Bodegas> listaBodegas = bodegaService.obtenerBodegas();
         model.addAttribute("listaBodegas",listaBodegas);
-        model.addAttribute("titulo","Listado de Bodegas");
+        model.addAttribute("titulo","Listado de Secciones");
         return "bodegas";
     }
 

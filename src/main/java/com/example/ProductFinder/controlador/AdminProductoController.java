@@ -43,6 +43,21 @@ public class AdminProductoController {
     @Autowired
     private PasilloService pasilloService;
 
+    @GetMapping("/ver{id}")
+    public String verDetallesProductos(@PathVariable Integer id,Map<String,Object> modelo, RedirectAttributes redirectAttributes){
+
+        Producto producto = productoRepository.findById(id).get();
+        if(producto == null){
+            redirectAttributes.addFlashAttribute("error","no se encuentra el producto en la base de datos");
+            return "redirect:/admin";
+        }
+
+        modelo.put("producto",producto);
+        modelo.put("titulo","detalles del producto");
+    return "ver-detalles-producto";
+
+    }
+
     @GetMapping("/admin")
     public String listarProductos(@PageableDefault(sort = "nombre", size = 4) Pageable pageable, Model model, @Param("palabraClave") String palabraClave) {//paginacion por defecto en orden alfabetico por el nombre//recuerde verPaginaDeInicio
         //String palabraClave = "cesar";
