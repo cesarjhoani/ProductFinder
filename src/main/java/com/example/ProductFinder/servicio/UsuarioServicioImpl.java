@@ -92,7 +92,7 @@ public class UsuarioServicioImpl implements UsuarioServicio {
         }
 
         StringBuilder userDetailsBuilder = new StringBuilder();
-        userDetailsBuilder.append(usuario.getEmail()).append(" ").append("<br>"+"Tu rol es ");
+        userDetailsBuilder.append(usuario.getNombre()).append(" ").append(usuario.getApellido()).append("<br>"+"Tu rol es ");
 
         StringBuilder rolesBuilder = new StringBuilder();
         for (Rol rol : usuario.getRoles()) {
@@ -100,7 +100,9 @@ public class UsuarioServicioImpl implements UsuarioServicio {
             if ("ROLE_USER".equals(roleName)) {
                 roleName = "<span style=\"color: blue;\">Cliente</span>";
             } else if ("ROLE_ADMIN".equals(roleName)) {
-                roleName = roleName = "<span style=\"color: #3a5f6d;\"><strong>Administrador</strong></span>";
+                roleName = "<span style=\"color: #3a5f6d;\"><strong>Administrador</strong></span>";
+            }else if ("ROLE_EMPLEADO".equals(roleName)) {
+                roleName =  "<span style=\"color: #3a5f6d;\"><strong>EMPLEADO</strong></span>";
             }
             rolesBuilder.append(roleName);
         }

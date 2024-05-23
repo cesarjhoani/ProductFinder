@@ -167,7 +167,7 @@ public class AdminProductoController {
             //servicio.eliminarArchivo(producto.getRutaImagen());  desactivo el metodo para que las imagenes que tengan otras sucursales no sean afectadas
             flash.addFlashAttribute("success", "Producto eliminado con exito");
         }
-        return "redirect:/admin";
+        return "redirect:/admin?delete";
 
     }
 

@@ -31,14 +31,14 @@ public class CategoriaController {
     public String actualizarCategoria(@ModelAttribute("categoria") Categoria categoria){
         // Aquí puedes agregar validaciones o procesamiento adicional antes de guardar
         categoriaRepository.save(categoria);
-        return "redirect:/categorias"; // Redirige a la lista de categorías después de la actualización
+        return "redirect:/categorias?edicion"; // Redirige a la lista de categorías después de la actualización
     }
 
     // para guardar una categoria traida desde un modal
     @PostMapping("/categorias/guardar")
     public String guardarCategoria(@ModelAttribute("categoria") Categoria categoria){
         categoriaRepository.save(categoria);
-        return "redirect:/categorias";
+        return "redirect:/categorias?exito";
     }
 
     //para antes de actualizar enviar el objecto llamado por una peticion ajax al modal

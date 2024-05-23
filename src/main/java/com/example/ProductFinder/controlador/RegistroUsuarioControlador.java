@@ -43,7 +43,9 @@ public class RegistroUsuarioControlador {
             if("ROLE_ADMIN".equals(rol.getNombre())){
                 rol.setNombre("Administrador");
             }else if ("ROLE_USER".equals(rol.getNombre())){
-                rol.setNombre("Usuario Normal");
+                rol.setNombre("Cliente");
+            }else if ("ROLE_EMPLEADO".equals(rol.getNombre())){
+                rol.setNombre("Empleado");
             }else {
                 rol.setNombre(rol.getNombre());
             }
@@ -73,7 +75,9 @@ public class RegistroUsuarioControlador {
                 if("ROLE_ADMIN".equals(rol.getNombre())){
                     rol.setNombre("ADMINISTRADOR");
                 }else if("ROLE_USER".equals(rol.getNombre())){
-                    rol.setNombre("USUARIO NORMAL");
+                    rol.setNombre("CLIENTE");
+                }else if("ROLE_EMPLEADO".equals(rol.getNombre())){
+                    rol.setNombre("EMPLEADO");
                 }
             }
         }

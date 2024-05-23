@@ -47,13 +47,13 @@
                     <a class="nav-link" href="#">productos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="navbar-brand" href="#" th:href="@{/admin}">productos</a>
-                    <a class="navbar-brand" href="#" th:href="@{/sucursales}">Sucursales</a>
-                    <a class="navbar-brand" href="#" th:href="@{/categorias}">Categorias</a>
-                    <a class="navbar-brand" href="#" th:href="@{/bodegas}">Seccion</a>
-                    <a class="navbar-brand" href="#" th:href="@{/pasillos}">Pasillos</a>
-                    <a class="navbar-brand" href="#" th:href="@{/modulos}">Modulos</a>
-                    <a class="navbar-brand" href="#" th:href="@{/registro/listarUsuarios}">Usuarios</a>
+                    <a sec:authorize="hasRole('ADMIN') or hasRole('EMPLEADO')" class="navbar-brand" href="#" th:href="@{/admin}">productos</a>
+                    <a sec:authorize="hasRole('ADMIN') or hasRole('EMPLEADO')" class="navbar-brand" href="#" th:href="@{/sucursales}">Sucursales</a>
+                    <a sec:authorize="hasRole('ADMIN') or hasRole('EMPLEADO')" class="navbar-brand" href="#" th:href="@{/categorias}">Categorias</a>
+                    <a sec:authorize="hasRole('ADMIN') or hasRole('EMPLEADO')" class="navbar-brand" href="#" th:href="@{/bodegas}">Seccion</a>
+                    <a sec:authorize="hasRole('ADMIN') or hasRole('EMPLEADO')" class="navbar-brand" href="#" th:href="@{/pasillos}">Pasillos</a>
+                    <a sec:authorize="hasRole('ADMIN') or hasRole('EMPLEADO')" class="navbar-brand" href="#" th:href="@{/modulos}">Modulos</a>
+                    <a sec:authorize="hasRole('ADMIN')" class="navbar-brand" href="#" th:href="@{/registro/listarUsuarios}">Usuarios</a>
                 </li>
 
             </ul>
@@ -71,8 +71,11 @@
     <div th:if="${param.registro}" id="alerta-exito" class="alert alert-success text-center">
         Producto registrado exitosamente
     </div>
-    <div th:if="${param.edicion}" id="alerta-exit" class="alert alert-warning text-center">
+    <div th:if="${param.edicion}" id="alerta-edicion" class="alert alert-warning text-center">
         Producto editado exitosamente
+    </div>
+    <div th:if="${param.delete}" id="alerta-delete" class="alert alert-danger text-center">
+        Producto eliminado exitosamente
     </div>
 <!--para que se oculte la alerta despues de 2 segundos-->
     <script th:inline="javascript">
@@ -85,7 +88,15 @@
     </script>
     <script th:inline="javascript">
         setTimeout(function() {
-            var alertaExito = document.getElementById('alerta-exit');
+            var alertaExito = document.getElementById('alerta-edicion');
+            if (alertaExito) {// valido que la variable exista o no sea null o undefined
+                alertaExito.style.display = 'none';
+            }
+        }, 3000);
+    </script>
+    <script th:inline="javascript">
+        setTimeout(function() {
+            var alertaExito = document.getElementById('alerta-delete');
             if (alertaExito) {// valido que la variable exista o no sea null o undefined
                 alertaExito.style.display = 'none';
             }
@@ -93,7 +104,7 @@
     </script>
 
     <div class="text-end">
-        <a href="/agregarProducto" class="btn btn-primary mb-3">
+        <a sec:authorize="hasRole('ADMIN') or hasRole('EMPLEADO')" href="/agregarProducto" class="btn btn-primary mb-3">
             <i class="fa-solid fa-circle-plus"></i>Agregar Productos </a>
     </div>
     <form class="form-inline" th:action="@{/admin}">
@@ -161,13 +172,13 @@
 
 
             <td class="text-end">
-                <a sec:authorize="hasRole('ADMIN')" class="btn btn-success" th:href="@{'/ver'+${producto.id}}"><i class="fa-solid fa-circle-info"></i>detalles</a>
+                <a class="btn btn-success" th:href="@{'/ver'+${producto.id}}"><i class="fa-solid fa-circle-info"></i>detalles</a>
                 &nbsp;<!--espacio en blanco no rompible-->
                 &nbsp;
-                <a sec:authorize="hasRole('ADMIN')" class="btn btn-warning" th:href="@{'/editar'+${producto.id}}"><i class="fa-regular fa-pen-to-square"></i>editar</a>
+                <a sec:authorize="hasRole('ADMIN') or hasRole('EMPLEADO')" class="btn btn-warning" th:href="@{'/editar'+${producto.id}}"><i class="fa-regular fa-pen-to-square"></i>editar</a>
                 &nbsp;&nbsp;
                 &nbsp;
-                <button sec:authorize="hasRole('ADMIN')" class="btn btn-danger"
+                <button sec:authorize="hasRole('ADMIN') or hasRole('EMPLEADO')" class="btn btn-danger"
                         th:attr="data-producto-id=${producto.id}, data-nombreProducto=${producto.nombre}"
                         th:onclick="javascript:confirmDelete(this.getAttribute('data-producto-id'), this.getAttribute('data-nombreProducto'))"><i class="fa-solid fa-trash-can"></i>eliminar
                 </button>

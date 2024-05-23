@@ -38,7 +38,7 @@ public class ProductoServiceImpl implements ProductoService{
 
     @Override
     public List<Producto> obtenerUltimosProductos() {// obtengo los ultimos 5 productos en orden alfabetico y en forma desendente
-        List<Producto> ultimasPeliculas = productoRepository.findAll(PageRequest.of(0,5, Sort.by("fechaRegistro").descending())).toList();
+        List<Producto> ultimasPeliculas = productoRepository.findAll(PageRequest.of(0,8, Sort.by("fechaRegistro").descending())).toList();
         return ultimasPeliculas;
     }
 
