@@ -106,10 +106,11 @@
     <div class="text-end">
         <a sec:authorize="hasRole('ADMIN') or hasRole('EMPLEADO')" href="/agregarProducto" class="btn btn-primary mb-3">
             <i class="fa-solid fa-circle-plus"></i>Agregar Productos </a>
+        <h5>(Total: <span th:text="${contarProductos}"></span>)</h5>
     </div>
     <form class="form-inline" th:action="@{/admin}">
         <div class="form-group mb-2">
-            <label class="font-weight-bold blink-text"><i class="fa-solid fa-magnifying-glass"></i>Busque un Producto&nbsp;</label>
+            <label class="font-weight-bold blink-text"><i class="fa-solid fa-magnifying-glass"></i>Busque Producto&nbsp;</label>
         </div>
         <div class="form-group mx-sm-3 mb-2">
             <input type="text" name="palabraClave" class="form-control" id="palabraClave" th:value="${palabraClave}" placeholder="digite producto a buscar" required>

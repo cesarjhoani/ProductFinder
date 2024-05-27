@@ -3,6 +3,7 @@ package com.example.ProductFinder.controlador;
 import com.example.ProductFinder.dto.UsuarioRegistroDTO;
 import com.example.ProductFinder.modelo.Rol;
 import com.example.ProductFinder.modelo.Usuario;
+import com.example.ProductFinder.reportes.UsuariosReportePdf;
 import com.example.ProductFinder.repositorio.RolRepository;
 import com.example.ProductFinder.repositorio.UsuarioRepositorio;
 import com.example.ProductFinder.servicio.UsuarioServicio;
@@ -12,8 +13,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -98,5 +104,20 @@ public class RegistroUsuarioControlador {
 
     usuarioServicio.guardar(registroDTO);
     return "redirect:/registro?exito";// se redirije a /registro o url de las solicitudes de este mismo controlador
+    }
+
+    @GetMapping("/exportarPdf")
+    public void  exportarUsuariosPdf(HttpServletResponse response) throws IOException {
+        response.setContentType("application/pdf");
+        DateFormat dateFormatter =  new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String fechaActual = dateFormatter.format(new Date());
+
+        String cabezera = "Content-Disposition";
+        String valor = "attachment; filename=Usuario_" + fechaActual + ".pdf";
+        response.setHeader(cabezera,valor);
+        List<Usuario> usuarios = usuarioServicio.listarUsuarios();
+
+        UsuariosReportePdf reportePdf = new UsuariosReportePdf(usuarios);
+        reportePdf.exportar(response);
     }
 }

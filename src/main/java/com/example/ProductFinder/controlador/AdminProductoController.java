@@ -63,6 +63,8 @@ public class AdminProductoController {
         //String palabraClave = "cesar";
         Page<Producto> listaProductos = productoService.obtenerListaProductos(pageable, palabraClave);
         model.addAttribute("listaProductos", listaProductos);
+        Long contarProductos = productoRepository.count();
+        model.addAttribute("contarProductos",contarProductos);
         return "productos_admin";
     }
 
