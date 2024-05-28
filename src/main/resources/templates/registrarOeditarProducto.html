@@ -144,9 +144,9 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Bodega : </label>
+                        <label>Seccion : </label>
                         <select class="form-control" th:field="*{bodegas}">
-                            <option value="">Seleccione una Bodega</option>
+                            <option value="">Seleccione una Seccion</option>
                             <th:block th:each="bodegas : ${listaBodegas}">
                                 <option th:text="${bodegas.nombre}" th:value="${bodegas.id}"></option>
                             </th:block>

@@ -15,14 +15,26 @@ public class Sucursales {
     @Column(length = 45,nullable = false)
     private String dirrecion;
 
+    @Column(length = 354,nullable = false)
+    private String ubicacion;
+
     public Sucursales() {
     }
 
-    public Sucursales(Integer id, String nombre, String telefono, String dirrecion) {
+    public Sucursales(Integer id, String nombre, String telefono, String dirrecion,String ubicacion) {
         this.id = id;
         this.nombre = nombre;
         this.telefono = telefono;
         this.dirrecion = dirrecion;
+        this.ubicacion = ubicacion;
+    }
+
+    public String getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
     }
 
     public Integer getId() {

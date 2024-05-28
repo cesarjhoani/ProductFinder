@@ -36,6 +36,7 @@ public class UsuarioServicioImpl implements UsuarioServicio {
             // Buscamos los roles coorespondientes si existen
         Rol rolAdmin = rolRepository.findByNombre("ROLE_ADMIN");
         Rol rolUser = rolRepository.findByNombre("ROLE_USER");
+        Rol rolEmpleado = rolRepository.findByNombre("ROLE_EMPLEADO");
 
         // Si el rol "ROLE_ADMIN" no existe, lo creamos
         if (rolAdmin == null) {
@@ -47,6 +48,11 @@ public class UsuarioServicioImpl implements UsuarioServicio {
         if (rolUser == null) {
             rolUser = new Rol("ROLE_USER");
             rolRepository.save(rolUser);
+        }
+        // Si no existe el rol "ROLE_EMPLEADO", lo creamos
+        if (rolEmpleado == null) {
+            rolEmpleado = new Rol("ROLE_EMPLEADO");
+            rolRepository.save(rolEmpleado);
         }
 
         Rol rolUsuario;

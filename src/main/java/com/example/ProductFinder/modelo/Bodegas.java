@@ -11,7 +11,7 @@ public class Bodegas {
     @Column(length = 45,nullable = false,unique = true)
     private String nombre;
 
-    @Column(length = 45,nullable = false,unique = true)
+    @Column(length = 45,nullable = false)
     private String temperatura;
 
     public Bodegas() {

@@ -13,6 +13,7 @@ $(document).ready(function() {
                     modal.find('.modal-body #editNombreSucursal').val(sucursal.nombre); // Llenar el campo de nombre con el valor recibido
                     modal.find('.modal-body #editTelefono').val(sucursal.telefono);
                     modal.find('.modal-body #editDirrecion').val(sucursal.dirrecion);
+                    modal.find('.modal-body #editUbicacion').val(sucursal.ubicacion);
                 },
                 error: function(xhr, status, error) {
                     console.error("Error al obtener la Sucursal :", error);

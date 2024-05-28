@@ -48,7 +48,7 @@
                 </li>
                 <li class="nav-item">
                     <a sec:authorize="hasRole('ADMIN') or hasRole('EMPLEADO')" class="navbar-brand" href="#" th:href="@{/admin}">productos</a>
-                    <a sec:authorize="hasRole('ADMIN') or hasRole('EMPLEADO')" class="navbar-brand" href="#" th:href="@{/sucursales}">Sucursales</a>
+                    <a class="navbar-brand" href="#" th:href="@{/sucursales}">Sucursales</a>
                     <a sec:authorize="hasRole('ADMIN') or hasRole('EMPLEADO')" class="navbar-brand" href="#" th:href="@{/categorias}">Categorias</a>
                     <a sec:authorize="hasRole('ADMIN') or hasRole('EMPLEADO')" class="navbar-brand" href="#" th:href="@{/bodegas}">Seccion</a>
                     <a sec:authorize="hasRole('ADMIN') or hasRole('EMPLEADO')" class="navbar-brand" href="#" th:href="@{/pasillos}">Pasillos</a>

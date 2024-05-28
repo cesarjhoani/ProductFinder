@@ -23,9 +23,8 @@
         <div class="card-header" th:text="${titulo}"></div>
         <div class="card-body">
             <h4 class="card-title">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarSucursal">
+                <button sec:authorize="hasRole('ADMIN') or hasRole('EMPLEADO')" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarSucursal">
                     <i class="fa-solid fa-circle-plus"></i> Agregar Sucursal
-                    <a href="https://www.google.com/maps/dir//transversal+39b,+Av.+Nutibara+%23c4-52,+Medell%C3%ADn,+Antioquia/@6.2416411,-75.5969335,15.2z/data=!4m8!4m7!1m0!1m5!1m1!1s0x8e4429a17d88876b:0x3ec40ecc8406b33a!2m2!1d-75.5939656!2d6.2440441?entry=ttu" target="_blank">Ver en Google Maps</a>
                 </button>
             </h4>
             <table class="table table-striped">
@@ -35,7 +34,8 @@
                     <th>Nombre</th>
                     <th>Telefono</th>
                     <th>Direccion</th>
-                    <th>Accion</th>
+                    <th>Ubicacion</th>
+                    <th sec:authorize="hasRole('ADMIN') or hasRole('EMPLEADO')">Accion</th>
                     <br>
                 </tr>
                 </thead>
@@ -46,7 +46,11 @@
                     <td th:text="${sucursal.telefono}"></td>
                     <td th:text="${sucursal.dirrecion}"></td>
                     <td>
-                        <button type="button" class="btn btn-warning" data-toggle="modal"
+                        <a th:href="@{${sucursal.ubicacion}}" class="btn btn-primary" target="_blank"><i class="fas fa-map-marker-alt"></i>
+                        </a>
+                    </td>
+                    <td sec:authorize="hasRole('ADMIN') or hasRole('EMPLEADO')">
+                        <button  type="button" class="btn btn-warning" data-toggle="modal"
                                 data-target="#modalEditarSucursal" th:attr="data-id=${sucursal.id}">
                             <i class="fa-regular fa-pen-to-square"></i>Editar
                         </button>
@@ -81,6 +85,10 @@
                         <label for="dirrecionSucursal" class="font-weight-bold">Direccion.</label>
                         <input type="text" id="dirrecionSucursal" name="dirrecion" class="form-control" required>
                     </div>
+                    <div class="form-group">
+                        <label for="ubicacionSucursal" class="font-weight-bold">ubicacion</label>
+                        <input type="text" id="ubicacionSucursal" name="ubicacion" class="form-control" required>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -101,7 +109,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="formEditarBodega" th:action="@{/sucursales/guardarOeditar}" method="post">
+            <form id="formEditarSucursal" th:action="@{/sucursales/guardarOeditar}" method="post">
                 <div class="modal-body">
                     <input type="hidden" id="editId" name="id" />
                     <div class="form-group">
@@ -115,6 +123,10 @@
                     <div class="form-group">
                         <label for="editDirrecion" class="font-weight-bold">Direccion</label>
                         <input type="text" id="editDirrecion" name="dirrecion" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editUbicacion" class="font-weight-bold">ubicacion</label>
+                        <input type="text" id="editUbicacion" name="ubicacion" class="form-control" required>
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -44,17 +44,17 @@ public class AdminProductoController {
     private PasilloService pasilloService;
 
     @GetMapping("/ver{id}")
-    public String verDetallesProductos(@PathVariable Integer id,Map<String,Object> modelo, RedirectAttributes redirectAttributes){
+    public String verDetallesProductos(@PathVariable Integer id, Map<String, Object> modelo, RedirectAttributes redirectAttributes) {
 
         Producto producto = productoRepository.findById(id).get();
-        if(producto == null){
-            redirectAttributes.addFlashAttribute("error","no se encuentra el producto en la base de datos");
+        if (producto == null) {
+            redirectAttributes.addFlashAttribute("error", "no se encuentra el producto en la base de datos");
             return "redirect:/admin";
         }
 
-        modelo.put("producto",producto);
-        modelo.put("titulo","detalles del producto");
-    return "ver-detalles-producto";
+        modelo.put("producto", producto);
+        modelo.put("titulo", "detalles del producto");
+        return "ver-detalles-producto";
 
     }
 
@@ -64,12 +64,12 @@ public class AdminProductoController {
         Page<Producto> listaProductos = productoService.obtenerListaProductos(pageable, palabraClave);
         model.addAttribute("listaProductos", listaProductos);
         Long contarProductos = productoRepository.count();
-        model.addAttribute("contarProductos",contarProductos);
+        model.addAttribute("contarProductos", contarProductos);
         return "productos_admin";
     }
 
     @GetMapping("/agregarProducto")
-    public String mostrarFormularioDeNuevoProducto(Model model,Map<String,Object> modelo) {
+    public String mostrarFormularioDeNuevoProducto(Model model, Map<String, Object> modelo) {
         List<Sucursales> listaSucursales = sucursalesService.obtenerSucursales();
         List<Categoria> listaCategorias = categoriaRepository.findAll(Sort.by("nombre"));
         List<Bodegas> listaBodegas = bodegaService.obtenerBodegas();
@@ -81,13 +81,13 @@ public class AdminProductoController {
         model.addAttribute("listaModulos", listaModulos);
         model.addAttribute("listaPasillos", listaPasillos);
         model.addAttribute("producto", new Producto());
-        modelo.put("titulo","Registrar Producto");
+        modelo.put("titulo", "Registrar Producto");
         return "registrarOeditarProducto";
     }
 
     @PostMapping("/guardarProducto")
     public String guardarProducto(@ModelAttribute("producto") @Valid Producto producto, BindingResult bindingResult, Model model, HttpServletRequest request) {
-                // primero valida si los formularios estan completos
+        // primero valida si los formularios estan completos
         if (bindingResult.hasErrors() || producto.getImagen().isEmpty()) {
             if (producto.getImagen().isEmpty()) {
                 bindingResult.rejectValue("imagen", "MultipartNotEmpty");
@@ -112,35 +112,44 @@ public class AdminProductoController {
         String[] detallesNombre = request.getParameterValues("detallesNombre");
         String[] detallesValor = request.getParameterValues("detallesValor");
 
-            if(detallesNombre != null && detallesValor != null) {//primero valido si se devuelven los detalles si es true itera, si no edita un producto existente que tiene id
-                for (int i = 0; i < detallesNombre.length; i++) {//si devuelve lleno itero
-                    if (detalleId != null && detalleId.length > 0) {//para editar si ya existen detalles en el producto traido
-                        producto.editarDetalles(Integer.valueOf(detalleId[i]), detallesNombre[i], detallesValor[i]);
-                    } else if (detallesNombre[i].isEmpty() && detallesValor[i].isEmpty()) {//para registrar productos  con detalles vacios o con menos de los 3 detalles ya que con uno que tenga vacio se cunple esta condicion
-                        String rutaImage = servicio.almacenarArchivo(producto.getImagen());
-                        producto.setRutaImagen(rutaImage);
-                        productoService.guardar(producto);
-                        return "redirect:/admin?registro";
-                    }else {// si los detalles no estan vacios, se añaden al producto // se añade este detalle al producto actual
-                        producto.añadirDetalles(detallesNombre[i], detallesValor[i]);
-                    }
+        if (detallesNombre != null && detallesNombre.length > 0) {
+            for (int i = 0; i < detallesNombre.length; i++) {//si devuelve lleno itero
+                if (detalleId != null && detalleId.length > 0) {//para editar si ya existen detalles en el producto traido
+                    producto.editarDetalles(Integer.valueOf(detalleId[i]), detallesNombre[i], detallesValor[i]);//se editan esttos detalles si existe un producto traido y se salta hasta las condiciones afuera  del for
+                } else if (detallesNombre[i].isEmpty() && detallesValor[i].isEmpty()) {//para registrar productos  con detalles vacios o con menos de los 3 detalles ya que con uno que tenga vacio se cunple esta condicion
+                    String rutaImage = servicio.almacenarArchivo(producto.getImagen());
+                    producto.setRutaImagen(rutaImage);
+                    productoService.guardar(producto);
+                    return "redirect:/admin?registro";
+                } else {// si los detalles no estan vacios, se añaden al producto // se añade este detalle al producto actual
+                    producto.añadirDetalles(detallesNombre[i], detallesValor[i]);
                 }
             }
+        }
 
-            // detallesNombre == null || detallesValor == null || detallesNombre.length == 0 || detallesValor.length == 0
+
+        if (detallesNombre != null && detallesNombre.length == 3 && detalleId != null && detalleId.length > 2) {
+            String rutaImagen = servicio.almacenarArchivo(producto.getImagen());// retorna el nombre de la imagen original
+            producto.setRutaImagen(rutaImagen);
+            productoService.guardar(producto);
+            return "redirect:/admin?edicion";
+        }else if(detallesNombre != null && detallesNombre.length == 3){
+            String rutaImagen = servicio.almacenarArchivo(producto.getImagen());// retorna el nombre de la imagen original
+            producto.setRutaImagen(rutaImagen);
+            productoService.guardar(producto);
+            return "redirect:/admin?registro";
+        }
 
         String rutaImagen = servicio.almacenarArchivo(producto.getImagen());// retorna el nombre de la imagen original
         producto.setRutaImagen(rutaImagen);
-
         productoService.guardar(producto);
-
         return "redirect:/admin?edicion";
     }
 
     //@GetMapping("/editar{id}")
     //@GetMapping("/producto/{id}/editar")
     @GetMapping("/editar{id}")
-    public String MostrarFormularioEditarProducto(@PathVariable Integer id, Model model, Map<String,Object> modelo) {
+    public String MostrarFormularioEditarProducto(@PathVariable Integer id, Model model, Map<String, Object> modelo) {
         Producto producto = productoService.obtenerProductoPorID(id);
         //Producto producto = productoRepository.getOne(id);
 
@@ -155,7 +164,7 @@ public class AdminProductoController {
         model.addAttribute("listaBodegas", listaBodegas);
         model.addAttribute("listaModulos", listaModulos);
         model.addAttribute("listaPasillos", listaPasillos);
-        modelo.put("titulo","Editar Producto");
+        modelo.put("titulo", "Editar Producto");
         return "registrarOeditarProducto";
     }
 
