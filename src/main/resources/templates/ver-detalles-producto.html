@@ -17,7 +17,7 @@
 <br>
 
 <div class="container py-4">
-    <div class="card bg-ligh">
+    <div class="card bg-light">
         <div class="card-header" th:text="${titulo}">
         </div>
         <div class="card-body">
@@ -41,9 +41,23 @@
                 <h6 style="color:darkgray">Nivel:</h6>
                 <li class="list-group-item" th:text="${producto.nivel}"></li>
             </ul>
+
+            <!-- Añadir los detalles del producto aquí -->
+            <div>
+                <h6 style="color:darkgray">Detalles del Producto:</h6>
+                <ul>
+                    <li th:each="detalle : ${productoDetalles}" class="list-group-item">
+                        <p><strong>Detalle ID:</strong> <span th:text="${detalle.id}"></span></p>
+                        <p><strong>Descripción:</strong> <span th:text="${detalle.nombre}"></span></p>
+                        <p><strong>Precio:</strong> <span th:text="${detalle.valor}"></span></p>
+                        <!-- Añadir otros campos necesarios -->
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
+
 
 
 
